@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сигн ин</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e17 0%, #121a2b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Earth Spirit fullscreen background */
+        .earth-spirit-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earth_spirit.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            filter: sepia(100%) hue-rotate(10deg) saturate(300%) brightness(0.5);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(10, 14, 23, 0.85);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(200, 169, 81, 0.2);
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        .login-header {
+            background: linear-gradient(90deg, #1a3d5c 0%, #0a0e17 100%);
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 2px solid #c8a951;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, #c8a951, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            color: #e6e6e6;
+            font-size: 18px;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-form {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c8a951;
+            font-size: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            background: rgba(26, 61, 92, 0.3);
+            border: 1px solid rgba(200, 169, 81, 0.3);
+            border-radius: 6px;
+            color: #e6e6e6;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #c8a951;
+            box-shadow: 0 0 10px rgba(200, 169, 81, 0.3);
+            background: rgba(26, 61, 92, 0.5);
+        }
+
+        .form-control::placeholder {
+            color: rgba(230, 230, 230, 0.6);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #1a3d5c 0%, #8B0000 100%);
+            border: none;
+            border-radius: 6px;
+            color: #e6e6e6;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 100%;
+            }
+
+            .login-header {
+                padding: 20px 15px;
+            }
+
+            .login-form {
+                padding: 20px 15px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+        }
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #1a3d5c 0%, #0a6b0a 100%); /* Зеленый градиент */
+            border: none;
+            border-radius: 6px;
+            color: #e6e6e6;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(10, 107, 10, 0.4); /* Зеленая тень */
+        }
+
+        .register-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+<div class="earth-spirit-bg"></div>
+
+<div class="login-container">
+    <div class="login-header">
+        <div class="logo">
+            <div class="logo-text">Dota Stats</div>
+        </div>
+        <h2 class="header-title">Статистика говна ебаного</h2>
+    </div>
+
+    <form class="login-form" method="post" action="/login">
+        <div class="form-group">
+            <div class="input-with-icon">
+                <i>👤</i>
+                <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control"
+                        placeholder="ну привет)"
+                        required
+                        autofocus>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-with-icon">
+                <i>🔒</i>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="form-control"
+                        placeholder=")))))))00)"
+                        required>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">
+            Войти
+        </button>
+    </form>
+    <div id="error-message"
+         style="display: none; color: #ff6b6b; background: rgba(139, 0, 0, 0.2); padding: 10px; margin: 0 25px 15px; border-radius: 6px; border: 1px solid #8B0000; text-align: center;">
+        <span style="margin-right: 8px;">❌</span> ЛОГПАСС НЕВЕРНЫЙ СОСИ ХУЙ
+    </div>
+    <div id="logout-message"
+         style="display: none; color: #ffd700; background: rgba(200, 169, 81, 0.2); padding: 10px; margin: 0 25px 15px; border-radius: 6px; border: 1px solid #c8a951; text-align: center;">
+        <span style="margin-right: 8px;">🚪</span> ПАКА ПАКА
+    </div>
+
+    <div class="form-actions">
+        <button onclick="window.location.href='/registration'" class="register-btn">
+            Регистрация
+        </button>
+    </div>
+
+
+    <script>
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has('error')) {
+        document.getElementById('error-message').style.display = 'block';
+    }
+
+    if (urlParams.has('logout')) {
+        document.getElementById('logout-message').style.display = 'block';
+    }
+    </script>
+</div>
+</body>
+</html>

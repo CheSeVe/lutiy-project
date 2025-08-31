@@ -1,0 +1,1 @@
+before start add your stratz api key to application-example.yml

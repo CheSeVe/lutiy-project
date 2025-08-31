@@ -8,6 +8,7 @@ import ru.CheSeVe.lutiy_project.repository.AppSettingsRepository;
 
 @Component
 public class InitialDataLoader implements CommandLineRunner {
+
     @Autowired
     AppSettingsRepository repository;
 

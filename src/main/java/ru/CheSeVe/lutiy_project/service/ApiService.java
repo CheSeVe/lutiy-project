@@ -4,8 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.CheSeVe.lutiy_project.dto.api.HeroesResponse;
+import ru.CheSeVe.lutiy_project.dto.api.ItemsResponse;
 import ru.CheSeVe.lutiy_project.dto.api.MatchResponse;
 import ru.CheSeVe.lutiy_project.dto.api.NameResponse;
 
@@ -15,10 +18,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class ApiService {
+
+    @Autowired
+    ObjectMapper mapper;
 
     private static final Logger log = LoggerFactory.getLogger(ApiService.class);
 
@@ -26,7 +33,15 @@ public class ApiService {
     HttpClient client = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
+
+    private static final Map<Class<? extends Exception>, String> REASONS = Map.of(
+            JsonProcessingException.class, "JSON_PARSING_ERROR",
+            IOException.class, "IO_ERROR",
+            InterruptedException.class, "INTERRUPTED"
+    );
+
     private static final String API_URL = "https://api.stratz.com/graphql";
+
     @Value("${stratz.api.key}")
     private String apiKey;
 
@@ -48,21 +63,20 @@ public class ApiService {
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            ObjectMapper mapper = new ObjectMapper();
             return Optional.ofNullable(mapper.readValue(response.body(), NameResponse.class));
-        } catch (JsonProcessingException e) {
-            failedLog.error("matchId={} reason=JSON_PARSING_ERROR body={} message={}",
-                    steamAccountId, response != null ? response.body() : null, e.getMessage(), e);
-            return Optional.empty();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            failedLog.error("matchId={} reason=INTERRUPTED message={}", steamAccountId, e.getMessage(), e);
-            throw new RuntimeException("Error executing request", e);
-        } catch (IOException e){
-            failedLog.error("matchId={} reason=IO_ERROR message={}", steamAccountId, e.getMessage(), e);
-            return Optional.empty();
         } catch (Exception e) {
-            failedLog.error("matchId={} reason=HTTP_ERROR message={}", steamAccountId, e.getMessage());
+            String reason = REASONS.getOrDefault(e.getClass(), "HTTP_ERROR");
+
+            failedLog.error("matchId={} reason={} body={} message={}", steamAccountId,
+                    reason,
+                    response != null ? response.body() : null,
+                    e.getMessage());
+
+            if (e instanceof InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Request interrupted", e);
+            }
+
             return Optional.empty();
         }
     }
@@ -84,22 +98,90 @@ public class ApiService {
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            ObjectMapper mapper = new ObjectMapper();
             log.info("Response from API: {}", response.body());
             return Optional.ofNullable(mapper.readValue(response.body(), MatchResponse.class));
-        } catch (JsonProcessingException e) {
-            failedLog.error("matchId={} reason=JSON_PARSING_ERROR body={} message={}",
-                    matchId, response != null ? response.body() : null, e.getMessage());
-            return Optional.empty();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            failedLog.error("matchId={} reason=INTERRUPTED message={}", matchId, e.getMessage());
-            throw new RuntimeException("Error executing request", e);
-        } catch (IOException e){
-            failedLog.error("matchId={} reason=IO_ERROR message={}", matchId, e.getMessage());
-            return Optional.empty();
         } catch (Exception e) {
-            failedLog.error("matchId={} reason=HTTP_ERROR message={}", matchId, e.getMessage());
+            String reason = REASONS.getOrDefault(e.getClass(), "HTTP_ERROR");
+
+            failedLog.error("matchId={} reason={} body={} message={}", matchId,
+                    reason,
+                    response != null ? response.body() : null,
+                    e.getMessage());
+
+            if (e instanceof InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Request interrupted", e);
+            }
+
+            return Optional.empty();
+        }
+    }
+
+    public Optional<ItemsResponse> getItems() {
+        HttpResponse<String> response = null;
+        try {
+            String graphqlQuery = """
+                    { "query": "{ constants { items { id, name, displayName } } }" }
+                    """;
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Authorization", "Bearer " + apiKey)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            log.info(response.body());
+
+            return Optional.ofNullable(mapper.readValue(response.body(), ItemsResponse.class));
+        } catch (Exception e) {
+            String reason = REASONS.getOrDefault(e.getClass(), "HTTP_ERROR");
+
+            failedLog.error("reason={} body={} message={}", reason,
+                    response != null ? response.body() : null,
+                    e.getMessage());
+
+            if (e instanceof InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Request interrupted", ie);
+            }
+
+            return Optional.empty();
+        }
+    }
+
+    public Optional<HeroesResponse> getHeroes() {
+        HttpResponse<String> response = null;
+
+        try {
+            String graphqlQuery = """
+                    { "query": "{ constants { heroes { id, name, displayName } } }" }
+                    """;
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .header("Authorization", "Bearer " + apiKey)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
+                    .build();
+
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            log.info(response.body());
+
+            return Optional.ofNullable(mapper.readValue(response.body(), HeroesResponse.class));
+        } catch(Exception e) {
+            String reason = REASONS.getOrDefault(e.getClass(), "HTTP_ERROR");
+
+            failedLog.error("reason={} body={} message={}", reason,
+                    response != null ? response.body() : null,
+                    e.getMessage());
+
+            if (e instanceof InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Request interrupted", ie);
+            }
+
             return Optional.empty();
         }
     }

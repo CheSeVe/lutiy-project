@@ -1,0 +1,22 @@
+server:
+  port: 8080
+  error:
+    whitelable:
+      enabled: false
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  security:
+    user:
+      name: user
+      password: user
+stratz:
+  api:
+    key: YOUR_API_KEY

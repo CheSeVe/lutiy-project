@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>your nickname</title>
+</head>
+<h1 id="steamName">Загрузка</h1>
+<script>
+    fetch('/api/me')
+        .then(res => res.json())
+        .then(user => {
+            return fetch(`/api/players/${user.steamAccountId}/name`);
+        })
+        .then(res => res.text())
+        .then(name => {
+            document.querySelector('#steamName').textContent = `${name}`;
+        });
+</script>
+</html>

@@ -5,6 +5,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.CheSeVe.lutiy_project.entity.Match;
+import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesProjection;
+import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesWithItemProjection;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
@@ -47,4 +52,32 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     Long countWinsWithoutItem(@Param("heroA") Short heroA,
                               @Param("heroB") Short heroB,
                               @Param("itemId") Short itemId);
+
+    @Query("SELECT COUNT(DISTINCT m) AS totalMatches, " +
+            "SUM(CASE WHEN mpA.isVictory = true THEN 1 ELSE 0 END) AS totalWins " +
+            "FROM Match m " +
+            "JOIN m.matchPlayers mpA " +
+            "JOIN m.matchPlayers mpB " +
+            "WHERE mpA.heroId = :heroA " +
+            "AND mpB.heroId = :heroB " +
+            "AND mpA.isVictory <> mpB.isVictory")
+    TotalMatchesProjection getTotalMatchesAndWins(@Param("heroA") Short heroA,
+                                                  @Param("heroB") Short heroB);
+
+    @Query("SELECT it.itemId AS itemId, " +
+            "COUNT(DISTINCT m) AS matchesWithItem, " +
+            "SUM(CASE WHEN mpA.isVictory = true  THEN 1 ELSE 0 END) AS winsWithItem " +
+            "From Match m " +
+            "JOIN m.matchPlayers mpA " +
+            "JOIN m.matchPlayers mpB " +
+            "JOIN mpA.items it " +
+            "WHERE mpA.heroId = :heroA " +
+            "AND mpB.heroId = :heroB " +
+            "AND mpA.isVictory <> mpB.isVictory " +
+            "GROUP BY it.itemId")
+    List<TotalMatchesWithItemProjection> getMatchesAndWinsWithItem(@Param("heroA") Short heroA,
+                                                                   @Param("heroB") Short heroB);
+
+    @Query("SELECT MAX (m.matchId) FROM Match m")
+    Optional<Long> findMaxMatchId();
 }

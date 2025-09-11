@@ -16,12 +16,12 @@ import ru.CheSeVe.lutiy_project.service.mapper.MatchMapper;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class MatchController {
-    MatchMapper mapper;
-    MatchRepository repository;
+
+    final MatchMapper mapper;
+
+    final MatchRepository repository;
     public final static String CREATE_MATCH = "match/create";
-    public final static String UPDATE_MATCH = "match/update";
     public final static String DELETE_MATCH = "match/delete";
-    public final static String GET_MATCH = "match/get";
 
     @PostMapping(CREATE_MATCH)
     public void saveMatch(@RequestBody MatchDTO matchDTO) {

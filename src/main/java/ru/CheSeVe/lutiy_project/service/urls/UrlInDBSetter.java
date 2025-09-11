@@ -79,10 +79,10 @@ public class UrlInDBSetter {
             return;
         }
 
-//        if (itemRepository.existsByImgUrlIsNotNull()) {
-//            log.info("item URLs already exist");
-//            return;
-//        }
+        if (itemRepository.existsByImgUrlIsNotNull()) {
+            log.info("item URLs already exist");
+            return;
+        }
 
         URL resource = getClass().getClassLoader().getResource("static/item-icons");
 

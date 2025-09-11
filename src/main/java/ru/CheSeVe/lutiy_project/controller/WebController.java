@@ -8,7 +8,6 @@ public class WebController {
     public final static String LOGIN_PAGE = "/login";
     public final static String INDEX = "/";
     public final static String REGISTRATION = "/registration";
-    public final static String PROFILE = "/me";
 
 
     @GetMapping(LOGIN_PAGE)
@@ -24,11 +23,6 @@ public class WebController {
     @GetMapping(REGISTRATION)
     public static String registrationPage() {
         return "registration-page.html";
-    }
-
-    @GetMapping(PROFILE)
-    public static String profilePage() {
-        return "profile-page.html";
     }
 
 

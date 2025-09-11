@@ -22,7 +22,7 @@ public class MatchFetchService {
     @Autowired
     MatchIdService matchIdService;
     @Autowired
-    ApiService apiService;
+    StratzApiService stratzApiService;
     @Autowired
     MatchRepository repository;
 
@@ -64,7 +64,7 @@ public class MatchFetchService {
     public Optional<MatchDTO> fetch(Long matchId) throws InterruptedException {
         for (int attempt = 1; attempt <= 2; attempt++) {
 
-            Optional<MatchResponse> matchResponse = apiService.getMatch(matchId);
+            Optional<MatchResponse> matchResponse = stratzApiService.getMatch(matchId);
 
             if (matchResponse.isEmpty() || matchResponse.get().errors() != null) {
 

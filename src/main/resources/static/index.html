@@ -2,16 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello page</title>
+    <title>Main</title>
 </head>
 <body>
-<p>SUCCESS EPTA</p>
+    <h1 id="steamName">Загрузка</h1>
+    <div id = "main">
+        <div>
+            <p>Твой герой: <span id="selected-hero-main">не выбран</span></p>
+            <p>Герой противника: <span id="selected-hero-enemy">не выбран</span></p>
+            <button id="get-items-button" disabled>Получить предметы</button>
+        </div>
+        <div id = "all-heroes"></div>
+        <div id="results-container"></div>
+    </div>
+    <script>
+        fetch('/me')
+            .then(res => res.json())
+            .then(user => {
+                return fetch(`/stratz/players/${user.steamAccountId}/name`);
+            })
+            .then(res => res.text())
+            .then(name => {
+                document.querySelector('#steamName').textContent = `привет, ${name}`;
+            });
+    </script>
+    <script>
+        let selectedHeroMainId = null;
+        let selectedHeroEnemyId = null;
 
-<div class="form-actions">
-    <button onclick="window.location.href='/me'">
-        Профиль
-    </button>
-</div>
+        fetch('/api/heroes')
+            .then(res => res.json())
+            .then(heroes => {
+                const allHeroes = document.getElementById('all-heroes');
+                if (!allHeroes) {
+                    console.error("No such element with id 'all-heroes'");
+                    return;
+                }
 
+                heroes.forEach(hero => {
+                    const heroIcon = document.createElement('img');
+                    heroIcon.src = hero.imgUrl;
+                    heroIcon.alt = hero.heroName;
+                    heroIcon.dataset.heroId = hero.heroId;
+                    heroIcon.dataset.heroName = hero.heroName;
+                    allHeroes.appendChild(heroIcon);
+                });
+
+                const heroIcons = allHeroes.querySelectorAll('img');
+                heroIcons.forEach(icon => {
+                    icon.addEventListener('click', function(event) {
+                        const clickedHeroId = event.target.dataset.heroId;
+                        const clickedHeroName = event.target.dataset.heroName;
+
+                    }
+
+                });
+            });
+    </script>
 </body>
 </html>

@@ -21,7 +21,7 @@ import java.util.Optional;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HeroesInitService {
     @Autowired
-    ApiService apiService;
+    StratzApiService stratzApiService;
 
     @Autowired
     HeroRepository repository;
@@ -34,7 +34,7 @@ public class HeroesInitService {
     public void getAndSaveHeroes() {
         log.info("getting heroes for DB");
 
-        Optional<HeroesResponse> response = apiService.getHeroes();
+        Optional<HeroesResponse> response = stratzApiService.getHeroes();
 
         List<HeroDTO> heroes = response.map(HeroesResponse::data)
                 .map(DataDTOForHeroes::constants)

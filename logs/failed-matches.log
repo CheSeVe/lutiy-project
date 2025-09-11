@@ -1,0 +1,53 @@
+2025-09-06 13:37:11 ERROR - matchId=8435801019 reason=HTTP_ERROR body=error code: 524 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-06 18:06:34 ERROR - matchId=8435802826 reason=IO_ERROR body=null message=Connection reset
+2025-09-08 12:11:03 ERROR - matchId=8435819654 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-08 19:14:22 ERROR - matchId=8435822291 reason=HTTP_ERROR body=null message=null
+2025-09-08 19:14:26 ERROR - matchId=8435822291 reason=HTTP_ERROR body=null message=null
+2025-09-08 19:14:26 ERROR - matchId=8435822292 reason=HTTP_ERROR body=null message=null
+2025-09-08 19:14:29 ERROR - matchId=8435822292 reason=HTTP_ERROR body=null message=null
+2025-09-08 19:14:29 ERROR - matchId=8435822293 reason=HTTP_ERROR body=null message=null
+2025-09-08 21:23:06 ERROR - matchId=8435823278 reason=HTTP_ERROR body=null message=null
+2025-09-08 21:23:12 ERROR - matchId=8435823278 reason=HTTP_ERROR body=null message=null
+2025-09-08 21:23:12 ERROR - matchId=8435823279 reason=HTTP_ERROR body=null message=null
+2025-09-08 21:23:15 ERROR - matchId=8435823279 reason=HTTP_ERROR body=null message=null
+2025-09-08 21:23:15 ERROR - matchId=8435823280 reason=HTTP_ERROR body=null message=null
+2025-09-08 23:31:55 ERROR - matchId=8435824136 reason=IO_ERROR body=null message=Connection reset
+2025-09-08 23:31:58 ERROR - matchId=8435824136 reason=HTTP_ERROR body=null message=null
+2025-09-08 23:31:58 ERROR - matchId=8435824137 reason=HTTP_ERROR body=null message=null
+2025-09-08 23:37:23 ERROR - matchId=8435824218 reason=HTTP_ERROR body=error code: 524 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-09 01:40:36 ERROR - matchId=8435824994 reason=HTTP_ERROR body=null message=null
+2025-09-09 01:40:39 ERROR - matchId=8435824994 reason=HTTP_ERROR body=null message=null
+2025-09-09 01:40:39 ERROR - matchId=8435824995 reason=HTTP_ERROR body=null message=null
+2025-09-09 01:40:42 ERROR - matchId=8435824995 reason=HTTP_ERROR body=null message=null
+2025-09-09 01:40:42 ERROR - matchId=8435824996 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:17 ERROR - matchId=8435825853 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:20 ERROR - matchId=8435825853 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:20 ERROR - matchId=8435825854 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:23 ERROR - matchId=8435825854 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:23 ERROR - matchId=8435825855 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:26 ERROR - matchId=8435825855 reason=HTTP_ERROR body=null message=null
+2025-09-09 03:49:26 ERROR - matchId=8435825856 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:00 ERROR - matchId=8435826711 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:03 ERROR - matchId=8435826711 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:03 ERROR - matchId=8435826712 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:06 ERROR - matchId=8435826712 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:06 ERROR - matchId=8435826713 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:09 ERROR - matchId=8435826713 reason=HTTP_ERROR body=null message=null
+2025-09-09 05:58:09 ERROR - matchId=8435826714 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:39 ERROR - matchId=8435827569 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:42 ERROR - matchId=8435827569 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:42 ERROR - matchId=8435827570 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:45 ERROR - matchId=8435827570 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:45 ERROR - matchId=8435827571 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:48 ERROR - matchId=8435827571 reason=HTTP_ERROR body=null message=null
+2025-09-09 08:06:48 ERROR - matchId=8435827572 reason=HTTP_ERROR body=null message=null
+2025-09-09 12:21:58 ERROR - matchId=8435827946 reason=IO_ERROR body=null message=Connection reset
+2025-09-09 18:48:23 ERROR - matchId=8435830520 reason=IO_ERROR body=null message=Connection reset
+2025-09-09 18:48:27 ERROR - matchId=8435830520 reason=HTTP_ERROR body=null message=null
+2025-09-09 18:48:27 ERROR - matchId=8435830521 reason=HTTP_ERROR body=null message=null
+2025-09-09 18:48:30 ERROR - matchId=8435830521 reason=HTTP_ERROR body=null message=null
+2025-09-09 18:48:30 ERROR - matchId=8435830522 reason=HTTP_ERROR body=null message=null
+2025-09-10 07:47:43 ERROR - matchId=8435830522 reason=HTTP_ERROR body=null message=null
+2025-09-10 16:12:20 ERROR - matchId=8435839067 reason=IO_ERROR body=null message=Connection reset

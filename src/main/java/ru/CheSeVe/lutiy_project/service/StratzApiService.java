@@ -2,6 +2,8 @@ package ru.CheSeVe.lutiy_project.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +24,43 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ApiService {
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class StratzApiService {
 
-    @Autowired
-    ObjectMapper mapper;
-
-    private static final Logger log = LoggerFactory.getLogger(ApiService.class);
+    private static final Logger log = LoggerFactory.getLogger(StratzApiService.class);
 
     private static final Logger failedLog = LoggerFactory.getLogger("FailedMatchesLogger");
-    HttpClient client = HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(10))
-            .build();
+
+    static String API_URL = "https://api.stratz.com/graphql";
 
     private static final Map<Class<? extends Exception>, String> REASONS = Map.of(
             JsonProcessingException.class, "JSON_PARSING_ERROR",
             IOException.class, "IO_ERROR",
             InterruptedException.class, "INTERRUPTED"
     );
+    HttpClient client;
+    ObjectMapper mapper;
 
-    private static final String API_URL = "https://api.stratz.com/graphql";
+    String apiKey;
 
-    @Value("${stratz.api.key}")
-    private String apiKey;
+    public StratzApiService(ObjectMapper mapper, @Value("${stratz.api.key}") String apiKey) {
+        this.mapper = mapper;
+        this.apiKey = apiKey;
+        this.client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(10))
+                .build();
+    }
+
+    private HttpResponse<String> sendGraphQLRequest(String graphqlQuery) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(API_URL))
+                .header("Authorization", "Bearer " + apiKey)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
+                .build();
+
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
 
     public Optional<NameResponse> getPlayerName(Long steamAccountId) {
         HttpResponse<String> response = null;
@@ -54,14 +71,7 @@ public class ApiService {
                        }
                     """.formatted(steamAccountId);
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
-                    .build();
-
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = sendGraphQLRequest(graphqlQuery);
 
             return Optional.ofNullable(mapper.readValue(response.body(), NameResponse.class));
         } catch (Exception e) {
@@ -89,14 +99,8 @@ public class ApiService {
                       "variables": { "id": %d}
                     }
                     """.formatted(matchId);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
-                    .build();
 
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = sendGraphQLRequest(graphqlQuery);
 
             log.info("Response from API: {}", response.body());
             return Optional.ofNullable(mapper.readValue(response.body(), MatchResponse.class));
@@ -123,16 +127,8 @@ public class ApiService {
             String graphqlQuery = """
                     { "query": "{ constants { items { id, name, displayName } } }" }
                     """;
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
-                    .build();
 
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            log.info(response.body());
+            response = sendGraphQLRequest(graphqlQuery);
 
             return Optional.ofNullable(mapper.readValue(response.body(), ItemsResponse.class));
         } catch (Exception e) {
@@ -146,7 +142,6 @@ public class ApiService {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException("Request interrupted", ie);
             }
-
             return Optional.empty();
         }
     }
@@ -158,16 +153,8 @@ public class ApiService {
             String graphqlQuery = """
                     { "query": "{ constants { heroes { id, name, displayName } } }" }
                     """;
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL))
-                    .header("Authorization", "Bearer " + apiKey)
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(graphqlQuery))
-                    .build();
 
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            log.info(response.body());
+            response = sendGraphQLRequest(graphqlQuery);
 
             return Optional.ofNullable(mapper.readValue(response.body(), HeroesResponse.class));
         } catch(Exception e) {
@@ -181,7 +168,6 @@ public class ApiService {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException("Request interrupted", ie);
             }
-
             return Optional.empty();
         }
     }

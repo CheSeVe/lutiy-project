@@ -24,7 +24,7 @@ public class ItemsInitService {
     ItemRepository repository;
 
     @Autowired
-    ApiService apiService;
+    StratzApiService stratzApiService;
 
     @Autowired
     ItemMapper mapper;
@@ -34,7 +34,7 @@ public class ItemsInitService {
     public void getAndSaveItems() {
         log.info("getting items for DB");
 
-        Optional<ItemsResponse> response = apiService.getItems();
+        Optional<ItemsResponse> response = stratzApiService.getItems();
 
         List<ItemDTO> items = response.map(ItemsResponse::data)
                 .map(DataDTOForItems::constants)

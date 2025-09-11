@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.CheSeVe.lutiy_project.dto.UserDto;
@@ -15,13 +14,11 @@ import ru.CheSeVe.lutiy_project.exception.BadRequestException;
 import ru.CheSeVe.lutiy_project.exception.NotFoundException;
 import ru.CheSeVe.lutiy_project.factory.UserDtoFactory;
 import ru.CheSeVe.lutiy_project.repository.UserRepository;
-import ru.CheSeVe.lutiy_project.service.Helper;
-
 import java.util.Optional;
 
 @RestController
 @Transactional
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class UserController {
     public final static String DELETE_USER = "user/delete";
@@ -29,14 +26,9 @@ public class UserController {
     public final static String CREATE_OR_UPDATE_USER = "user/put";
     public final static String PATCH_USER = "user/patch/{user_id}";
 
-    @Autowired
-    UserDtoFactory userDtoFactory;
+    final UserDtoFactory userDtoFactory;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    Helper helper;
+    final UserRepository userRepository;
 
     @PutMapping(CREATE_OR_UPDATE_USER)
         public UserDto createOrUpdateUser(
@@ -66,7 +58,7 @@ public class UserController {
         );
 
         optionalUsername.ifPresent(username -> {
-            userRepository.findByUsername(username).filter(anotherUser -> {
+            userRepository.findByUsername(username).ifPresent(anotherUser -> {
                 throw new AlreadyExistException(String.format("User name \"%s\" already exists", username));
             });
             user.setUsername(username);
@@ -108,7 +100,7 @@ public class UserController {
                 new NotFoundException(String.format("user with id \"%d\" doesn't exist", userId)));
 
         optionalUsername.ifPresent(username -> {
-            userRepository.findByUsername(username).filter(anotherUser -> {
+            userRepository.findByUsername(username).ifPresent(anotherUser -> {
                 throw new BadRequestException("user name  \"%s\" already exist");
             });
             user.setUsername(username);
@@ -123,7 +115,7 @@ public class UserController {
         return userDtoFactory.createUserDto(user);
     }
 
-    @GetMapping("api/me")
+    @GetMapping("/me")
     public UserIdDTO getCurrentUserId(@AuthenticationPrincipal User user) {
         return new UserIdDTO(user.getSteamAccountId());
     }

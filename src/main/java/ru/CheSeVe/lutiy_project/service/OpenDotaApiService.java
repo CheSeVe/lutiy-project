@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.dto.api.opendota.MatchDTO;
+import ru.CheSeVe.lutiy_project.repository.MatchIdRepository;
 import ru.CheSeVe.lutiy_project.repository.MatchRepository;
 import java.io.IOException;
 import java.net.URI;
@@ -42,31 +43,40 @@ public class OpenDotaApiService {
 
     private static final int MATCHES_PER_REQUEST = 500;
 
-    private static final Long DEFAULT_START_MATCH_ID = 8446676269L;
+    private static final Long DEFAULT_START_MATCH_ID = 8409138129L;
 
     private static final String BASE_URL = "https://api.opendota.com/api/explorer?sql=";
 
-    private static final String SQL_TEMPLATE = "SELECT match_id FROM public_matches WHERE lobby_type = %d AND avg_rank_tier >= %d AND match_id > %d ORDER BY match_id ASC LIMIT %d;";
+    private static final String SQL_TEMPLATE = """
+            SELECT
+              match_id
+            FROM public_matches
+            WHERE lobby_type = %d
+              AND avg_rank_tier >= %d
+              AND match_id > %d
+            ORDER BY match_id ASC
+            LIMIT %d;""";
 
 
     HttpClient client;
 
     ObjectMapper mapper;
 
-    MatchRepository matchRepository;
+    MatchIdRepository matchIdRepository;
 
-    public OpenDotaApiService(ObjectMapper mapper, MatchRepository repository) {
+    public OpenDotaApiService(ObjectMapper mapper, MatchIdRepository matchIdRepository) {
         this.client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(60))
                 .build();
         this.mapper = mapper;
-        this.matchRepository = repository;
+        this.matchIdRepository = matchIdRepository;
+
     }
 
     public Optional<List<MatchDTO>> getMatches(){
         HttpResponse<String> response = null;
         try {
-            Long matchId = matchRepository.findMaxMatchId().orElse(DEFAULT_START_MATCH_ID);
+            Long matchId = matchIdRepository.findMaxMatchId().orElse(DEFAULT_START_MATCH_ID);
 
             String rawSqlQuery = String.format(SQL_TEMPLATE,
                     LOBBY_TYPE,
@@ -86,7 +96,8 @@ public class OpenDotaApiService {
                     .build();
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+            log.info("HTTP Status Code: {}", response.statusCode());
+            log.info("Raw API Response Body: {}", response.body());
             String jsonString = response.body();
 
             JsonNode rootNode = mapper.readTree(jsonString);
@@ -98,7 +109,9 @@ public class OpenDotaApiService {
             }
 
             JavaType matchListType = mapper.getTypeFactory().constructCollectionType(List.class, MatchDTO.class);
-            return Optional.ofNullable(mapper.readValue(rowsNode.toString(), matchListType));
+            List<MatchDTO> matchList = mapper.readValue(rowsNode.toString(), matchListType);
+            log.info("Got {} matchIds from OpenDota Api", matchList.size());
+            return Optional.of(matchList);
         }  catch (Exception e) {
             String reason = REASONS.getOrDefault(e.getClass(), "HTTP_ERROR");
 

@@ -33,7 +33,7 @@ public class MatchFetchService {
 
     private static final Logger log = LoggerFactory.getLogger(MatchFetchService.class);
 
-    @Scheduled(fixedRate = 9000)
+//    @Scheduled(fixedRate = 9000L)
     public void validateAndSave() throws InterruptedException {
         Long now = System.currentTimeMillis();
 
@@ -61,7 +61,7 @@ public class MatchFetchService {
         } else {log.info("skipped match {}. Bracket={} LobbyType={}", matchId, dto.bracket(), dto.lobbyType());}
     }
 
-    public Optional<MatchDTO> fetch(Long matchId) throws InterruptedException {
+    private Optional<MatchDTO> fetch(Long matchId) throws InterruptedException {
         for (int attempt = 1; attempt <= 2; attempt++) {
 
             Optional<MatchResponse> matchResponse = stratzApiService.getMatch(matchId);
@@ -88,7 +88,7 @@ public class MatchFetchService {
     }
 
 
-    public boolean isValidMatch(MatchDTO dto) {
+    private boolean isValidMatch(MatchDTO dto) {
         return dto.lobbyType() == LobbyTypeEnum.RANKED && dto.bracket() >= 8;
     }
 }

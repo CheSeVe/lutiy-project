@@ -107,7 +107,8 @@ public class UrlInDBSetter {
 
             if (itemName.contains("Dagon")
                     || itemName.contains("Diffusal Blade")
-                    || itemName.contains("Tranquil Boots (Active)")) {
+                    || itemName.contains("Tranquil Boots (Active)")
+                    || itemName.contains("Observer and Sentry Wards")) {
                 log.info("linking item={}", name);
 
                 if (name.contains("Dagon itemicon")) {
@@ -183,6 +184,16 @@ public class UrlInDBSetter {
                 if (name.contains(("Active"))) {
                     log.info("LINKING TRANQUIL");
                     Optional<Item> optItem = itemRepository.findById((short)214);
+                    optItem.ifPresent(item -> {
+                        item.setImgUrl(path);
+                        items.add(item);
+                    });
+                    return;
+                }
+
+                if (name.contains(("Wards"))) {
+                    log.info("LINKING obs + cent wards");
+                    Optional<Item> optItem = itemRepository.findById((short)218);
                     optItem.ifPresent(item -> {
                         item.setImgUrl(path);
                         items.add(item);

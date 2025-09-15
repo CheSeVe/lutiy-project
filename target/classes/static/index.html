@@ -2,20 +2,224 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota Stats - Main</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e17 0%, #121a2b 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            color: #e6e6e6;
+        }
+
+        /* Earth Spirit fullscreen background */
+        .earth-spirit-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/earth_spirit.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            filter: sepia(100%) hue-rotate(10deg) saturate(300%) brightness(0.5);
+        }
+
+        #steamName {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, #c8a951, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px;
+        }
+
+        #main {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(10, 14, 23, 0.85);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(200, 169, 81, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .left-panel {
+            flex: 1;
+            padding: 15px;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .hero-selection {
+            background: rgba(26, 61, 92, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid rgba(200, 169, 81, 0.3);
+        }
+
+        .hero-selection p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        #get-items-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #1a3d5c 0%, #0a6b0a 100%);
+            border: none;
+            border-radius: 6px;
+            color: #e6e6e6;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #get-items-button:disabled {
+            background: linear-gradient(90deg, #1a3d5c 0%, #555 100%);
+            cursor: not-allowed;
+        }
+
+        #get-items-button:not(:disabled):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(10, 107, 10, 0.4);
+        }
+
+        #all-heroes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        #all-heroes img {
+            width: 60px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            object-fit: cover;
+        }
+
+        #all-heroes img:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 12px rgba(200, 169, 81, 0.7);
+            z-index: 10;
+        }
+
+        #all-heroes img.selected-main {
+            border: 3px solid #0a6b0a;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        #all-heroes img.selected-enemy {
+            border: 3px solid #8B0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        #results-container {
+            background: rgba(26, 61, 92, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid rgba(200, 169, 81, 0.3);
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(10, 14, 23, 0.7);
+        }
+
+        th, td {
+            border: 1px solid rgba(200, 169, 81, 0.3);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(26, 61, 92, 0.5);
+            color: #c8a951;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(26, 61, 92, 0.2);
+        }
+
+        .item-image {
+            width: 40px;
+            height: 30px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            #main {
+                flex-direction: column;
+            }
+
+            #all-heroes img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1 id="steamName">Загрузка</h1>
-    <div id = "main">
-        <div>
+<div class="earth-spirit-bg"></div>
+
+<h1 id="steamName">Загрузка</h1>
+
+<div id="main">
+    <div class="left-panel">
+        <div id="all-heroes"></div>
+    </div>
+
+    <div class="right-panel">
+        <div class="hero-selection">
             <p>Твой герой: <span id="selected-hero-main">не выбран</span></p>
             <p>Герой противника: <span id="selected-hero-enemy">не выбран</span></p>
             <button id="get-items-button" disabled>Получить предметы</button>
         </div>
-        <div id = "all-heroes"></div>
+
         <div id="results-container"></div>
     </div>
-    <script>
+</div>
+
+<script>
         fetch('/me')
             .then(res => res.json())
             .then(user => {
@@ -26,7 +230,8 @@
                 document.querySelector('#steamName').textContent = `привет, ${name}`;
             });
     </script>
-    <script>
+
+<script>
         let selectedHeroMainId = null;
         let selectedHeroEnemyId = null;
 
@@ -48,6 +253,21 @@
                     allHeroes.appendChild(heroIcon);
                 });
 
+                // Функция для обновления подсветки героев
+                function updateHeroSelection() {
+                    const heroIcons = allHeroes.querySelectorAll('img');
+                    heroIcons.forEach(icon => {
+                        icon.classList.remove('selected-main', 'selected-enemy');
+
+                        const heroId = icon.dataset.heroId;
+                        if (heroId == selectedHeroMainId) {
+                            icon.classList.add('selected-main');
+                        } else if (heroId == selectedHeroEnemyId) {
+                            icon.classList.add('selected-enemy');
+                        }
+                    });
+                }
+
                 const heroIcons = allHeroes.querySelectorAll('img');
                 heroIcons.forEach(icon => {
                     icon.addEventListener('click', function(event) {
@@ -60,205 +280,173 @@
                             console.log("Отмена выбора главного героя");
                             selectedHeroMainId = null;
                             document.getElementById('selected-hero-main').textContent = 'не выбран';
-                            updateGetItemsButton();
                         } else if (clickedHeroId == selectedHeroEnemyId) {
                             console.log("Отмена выбора противника");
                             selectedHeroEnemyId = null;
                             document.getElementById('selected-hero-enemy').textContent = 'не выбран';
-                            updateGetItemsButton();
                         } else if (selectedHeroMainId === null) {
                             console.log("Выбор главного героя");
                             selectedHeroMainId = clickedHeroId;
                             document.getElementById('selected-hero-main').textContent = clickedHeroName;
-                            updateGetItemsButton(); // Обновляем состояние кнопки
                         } else if (selectedHeroEnemyId === null && clickedHeroId !== selectedHeroMainId) {
                             console.log("Выбор противника");
                             selectedHeroEnemyId = clickedHeroId;
                             document.getElementById('selected-hero-enemy').textContent = clickedHeroName;
-                            updateGetItemsButton();
                         }
+
+                        // Обновляем подсветку после изменения выбора
+                        updateHeroSelection();
+                        updateGetItemsButton();
                     });
-            });
+                });
 
-            function updateGetItemsButton() {
-                const button = document.getElementById('get-items-button');
-                if (button) {
-                     button.disabled = !(selectedHeroMainId !== null && selectedHeroEnemyId !== null);
+                function updateGetItemsButton() {
+                    const button = document.getElementById('get-items-button');
+                    if (button) {
+                         button.disabled = !(selectedHeroMainId !== null && selectedHeroEnemyId !== null);
+                    }
                 }
-            }
 
-            function displayError(message) {
-                const resultsContainer = document.getElementById('results-container');
-                if (resultsContainer) {
+                function displayError(message) {
+                    const resultsContainer = document.getElementById('results-container');
+                    if (resultsContainer) {
+                        resultsContainer.innerHTML = '';
+                        const errorElement = document.createElement('p');
+                        errorElement.style.color = '#ff6b6b';
+                        errorElement.textContent = `Ошибка: ${message}`;
+                        resultsContainer.appendChild(errorElement);
+                    }
+                }
+
+                function displayMatchupStats(matchupStatsDto) {
+                    const resultsContainer = document.getElementById('results-container');
+                    if (!resultsContainer) {
+                        console.error("Контейнер для результатов '#results-container' не найден!");
+                        displayError("Контейнер для результатов не найден на странице.");
+                        return;
+                    }
+
                     resultsContainer.innerHTML = '';
-                    const errorElement = document.createElement('p');
-                    errorElement.style.color = 'red'; // Можно стилизовать через CSS
-                    errorElement.textContent = `Ошибка: ${message}`;
-                    resultsContainer.appendChild(errorElement);
-                }
-            }
 
-            function displayMatchupStats(matchupStatsDto) {
-                const resultsContainer = document.getElementById('results-container');
-                if (!resultsContainer) {
-                    console.error("Контейнер для результатов '#results-container' не найден!");
-                    displayError("Контейнер для результатов не найден на странице.");
-                    return;
-                }
-
-                resultsContainer.innerHTML = '';
-
-                if (!matchupStatsDto || matchupStatsDto.totalMatches === 0 || !matchupStatsDto.items || matchupStatsDto.items.length === 0) {
-                    const noDataElement = document.createElement('p');
-                    noDataElement.textContent = 'Для выбранной пары героев недостаточно данных или предметы не найдены.';
-                    resultsContainer.appendChild(noDataElement);
-                    return;
-                }
-
-                const totalMatchesElement = document.createElement('p');
-                totalMatchesElement.textContent = `Всего матчей: ${matchupStatsDto.totalMatches}`;
-                resultsContainer.appendChild(totalMatchesElement);
-
-                const table = document.createElement('table');
-                table.border = '1';
-                table.style.width = '100%';
-                table.style.borderCollapse = 'collapse';
-
-                const thead = document.createElement('thead');
-                const headerRow = document.createElement('tr');
-                ['ID Предмета', 'Предмет', 'Матчей с предметом', 'Winrate с предметом (%)', 'Winrate без предмета (%)', 'Impact'].forEach(text => {
-                    const th = document.createElement('th');
-                    th.textContent = text;
-                    th.style.border = '1px solid #ddd';
-                    th.style.padding = '8px';
-                    th.style.backgroundColor = '#f2f2f2';
-                    if (text === 'Предмет') {
-                        th.style.textAlign = 'center';
-                    }
-                    headerRow.appendChild(th);
-                });
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                const tbody = document.createElement('tbody');
-                const items = matchupStatsDto.items ?? [];
-                items.forEach(itemDto => {
-                    const row = document.createElement('tr');
-
-                    const itemId = itemDto.itemId ?? itemDto.item_id ?? 'N/A';
-                    const itemImgUrl = itemDto.imgUrl ?? itemDto.image_url ?? '';
-                    const matchesWithItem = itemDto.matchesWithItem ?? itemDto.matches_with_item ?? 0;
-                    const winRateWithItem = itemDto.winRateWithItem ?? itemDto.win_rate_with_item ?? 0;
-                    const winRateWithoutItem = itemDto.winRateWithoutItem ?? itemDto.win_rate_without_item ?? 0;
-                    const impact = itemDto.impact ?? 0;
-
-                    const itemIdCell = document.createElement('td');
-
-                    itemIdCell.textContent = itemId;
-                    itemIdCell.style.border = '1px solid #ddd';
-                    itemIdCell.style.padding = '8px';
-
-                    const itemImageCell = document.createElement('td');
-                    itemImageCell.style.border = '1px solid #ddd';
-                    itemImageCell.style.padding = '4px';
-                    itemImageCell.style.textAlign = 'center';
-
-                    if (itemImgUrl) {
-                        const itemImage = document.createElement('img');
-                        itemImage.src = itemImgUrl;
-                        itemImage.alt = `Item ${itemId}`;
-                        itemImage.style.width = '40px';
-                        itemImage.style.height = '30px';
-                        itemImage.style.objectFit = 'cover';
-                        itemImage.style.margin = '0 auto';
-                        itemImageCell.appendChild(itemImage);
-                    } else {
-                        itemImageCell.textContent = `Item ${itemId}`;
-                        itemImageCell.style.fontStyle = 'italic';
-                        itemImageCell.style.color = '#888';
+                    if (!matchupStatsDto || matchupStatsDto.totalMatches === 0 || !matchupStatsDto.items || matchupStatsDto.items.length === 0) {
+                        const noDataElement = document.createElement('p');
+                        noDataElement.textContent = 'Для выбранной пары героев недостаточно данных или предметы не найдены.';
+                        resultsContainer.appendChild(noDataElement);
+                        return;
                     }
 
-                    const matchesCell = document.createElement('td');
-                    matchesCell.textContent = matchesWithItem;
-                    matchesCell.style.border = '1px solid #ddd';
-                    matchesCell.style.padding = '8px';
-                    matchesCell.style.textAlign = 'right';
+                    const totalMatchesElement = document.createElement('p');
+                    totalMatchesElement.textContent = `Всего матчей: ${matchupStatsDto.totalMatches}`;
+                    resultsContainer.appendChild(totalMatchesElement);
 
-                    const winRateWithCell = document.createElement('td');
-                    winRateWithCell.textContent = winRateWithItem ? winRateWithItem.toFixed(2) : '0.00';
-                    winRateWithCell.style.border = '1px solid #ddd';
-                    winRateWithCell.style.padding = '8px';
-                    winRateWithCell.style.textAlign = 'right';
+                    const table = document.createElement('table');
+                    table.border = '1';
 
-                    const winRateWithoutCell = document.createElement('td');
-                    winRateWithoutCell.textContent = winRateWithoutItem ? winRateWithoutItem.toFixed(2) : '0.00';
-                    winRateWithoutCell.style.border = '1px solid #ddd';
-                    winRateWithoutCell.style.padding = '8px';
-                    winRateWithoutCell.style.textAlign = 'right';
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    ['ID Предмета', 'Предмет', 'Матчей с предметом', 'Winrate с предметом (%)', 'Winrate без предмета (%)', 'Impact'].forEach(text => {
+                        const th = document.createElement('th');
+                        th.textContent = text;
+                        headerRow.appendChild(th);
+                    });
+                    thead.appendChild(headerRow);
+                    table.appendChild(thead);
 
-                    const impactCell = document.createElement('td');
-                    impactCell.textContent = impact ? impact.toFixed(2) : '0.00';
-                    impactCell.style.border = '1px solid #ddd';
-                    impactCell.style.padding = '8px';
-                    impactCell.style.textAlign = 'right';
+                    const tbody = document.createElement('tbody');
+                    const items = matchupStatsDto.items ?? [];
+                    items.forEach(itemDto => {
+                        const row = document.createElement('tr');
 
-                    row.appendChild(itemIdCell);
-                    row.appendChild(itemImageCell); // Добавляем ячейку с иконкой
-                    row.appendChild(matchesCell);
-                    row.appendChild(winRateWithCell);
-                    row.appendChild(winRateWithoutCell);
-                    row.appendChild(impactCell);
+                        const itemId = itemDto.itemId ?? itemDto.item_id ?? 'N/A';
+                        const itemImgUrl = itemDto.imgUrl ?? itemDto.image_url ?? '';
+                        const matchesWithItem = itemDto.matchesWithItem ?? itemDto.matches_with_item ?? 0;
+                        const winRateWithItem = itemDto.winRateWithItem ?? itemDto.win_rate_with_item ?? 0;
+                        const winRateWithoutItem = itemDto.winRateWithoutItem ?? itemDto.win_rate_without_item ?? 0;
+                        const impact = itemDto.impact ?? 0;
 
-                    tbody.appendChild(row);
-                });
-                table.appendChild(tbody);
+                        const itemIdCell = document.createElement('td');
+                        itemIdCell.textContent = itemId;
 
-                resultsContainer.appendChild(table);
-            }
-
-            const getItemsButton = document.getElementById('get-items-button');
-
-            if (getItemsButton) {
-                getItemsButton.addEventListener('click', function() {
-                    console.log("Кнопка 'Получить предметы' нажата");
-                    console.log("Выбранный главный герой ID:", selectedHeroMainId);
-                    console.log("Выбранный противник ID:", selectedHeroEnemyId);
-
-                    fetchMatchupStats(selectedHeroMainId, selectedHeroEnemyId);
-                });
-            } else {
-                console.error("Кнопка 'get-items-button' не найдена на странице!");
-            }
-
-            function fetchMatchupStats(mainHeroId, enemyHeroId) {
-                if (!mainHeroId || !enemyHeroId) {
-                    console.error("Ошибка: Не выбраны оба героя для запроса статистики.");
-                    displayError("Пожалуйста, выберите обоих героев.");
-                    return;
-                }
-
-                const url = `/api/stats?mainHeroId=${encodeURIComponent(mainHeroId)}&enemyHeroId=${encodeURIComponent(enemyHeroId)}`;
-                console.log("Отправка запроса на:", url);
-
-                fetch(url)
-                    .then(response => {
-                        console.log("Получен ответ от сервера. Status:", response.status);
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+                        const itemImageCell = document.createElement('td');
+                        if (itemImgUrl) {
+                            const itemImage = document.createElement('img');
+                            itemImage.src = itemImgUrl;
+                            itemImage.alt = `Item ${itemId}`;
+                            itemImage.classList.add('item-image');
+                            itemImageCell.appendChild(itemImage);
+                        } else {
+                            itemImageCell.textContent = `Item ${itemId}`;
                         }
 
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Данные успешно получены:", data);
-                        displayMatchupStats(data);
-                    })
-                    .catch(error => {
-                        console.error("Ошибка при запросе статистики:", error);
-                        displayError(`Ошибка загрузки данных: ${error.message}`);
+                        const matchesCell = document.createElement('td');
+                        matchesCell.textContent = matchesWithItem;
+
+                        const winRateWithCell = document.createElement('td');
+                        winRateWithCell.textContent = winRateWithItem ? winRateWithItem.toFixed(2) : '0.00';
+
+                        const winRateWithoutCell = document.createElement('td');
+                        winRateWithoutCell.textContent = winRateWithoutItem ? winRateWithoutItem.toFixed(2) : '0.00';
+
+                        const impactCell = document.createElement('td');
+                        impactCell.textContent = impact ? impact.toFixed(2) : '0.00';
+
+                        row.appendChild(itemIdCell);
+                        row.appendChild(itemImageCell);
+                        row.appendChild(matchesCell);
+                        row.appendChild(winRateWithCell);
+                        row.appendChild(winRateWithoutCell);
+                        row.appendChild(impactCell);
+
+                        tbody.appendChild(row);
                     });
-            }
-        });
+                    table.appendChild(tbody);
+
+                    resultsContainer.appendChild(table);
+                }
+
+                const getItemsButton = document.getElementById('get-items-button');
+
+                if (getItemsButton) {
+                    getItemsButton.addEventListener('click', function() {
+                        console.log("Кнопка 'Получить предметы' нажата");
+                        console.log("Выбранный главный герой ID:", selectedHeroMainId);
+                        console.log("Выбранный противник ID:", selectedHeroEnemyId);
+
+                        fetchMatchupStats(selectedHeroMainId, selectedHeroEnemyId);
+                    });
+                } else {
+                    console.error("Кнопка 'get-items-button' не найдена на странице!");
+                }
+
+                function fetchMatchupStats(mainHeroId, enemyHeroId) {
+                    if (!mainHeroId || !enemyHeroId) {
+                        console.error("Ошибка: Не выбраны оба героя для запроса статистики.");
+                        displayError("Пожалуйста, выберите обоих героев.");
+                        return;
+                    }
+
+                    const url = `/api/stats?mainHeroId=${encodeURIComponent(mainHeroId)}&enemyHeroId=${encodeURIComponent(enemyHeroId)}`;
+                    console.log("Отправка запроса на:", url);
+
+                    fetch(url)
+                        .then(response => {
+                            console.log("Получен ответ от сервера. Status:", response.status);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+                            }
+
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log("Данные успешно получены:", data);
+                            displayMatchupStats(data);
+                        })
+                        .catch(error => {
+                            console.error("Ошибка при запросе статистики:", error);
+                            displayError(`Ошибка загрузки данных: ${error.message}`);
+                        });
+                }
+            });
     </script>
 </body>
 </html>

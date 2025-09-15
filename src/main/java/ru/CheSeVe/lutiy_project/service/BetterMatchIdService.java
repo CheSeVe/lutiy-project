@@ -32,7 +32,7 @@ public class BetterMatchIdService {
         this.apiService = apiService;
     }
 
-    @Scheduled(fixedDelay = 60*1000L)
+//    @Scheduled(fixedDelay = 60*1000L)
     public void getAndSaveIds() {
         if (matchIdRepository.count() + matchRepository.count() >= 200_000L) {
             return;

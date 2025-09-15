@@ -43,7 +43,7 @@ public class BetterMatchFetchService {
         this.matchIdRepository = matchIdRepository;
         this.mapper = mapper;
     }
-    @Scheduled(fixedRate = 9000L)
+//    @Scheduled(fixedRate = 9000L)
     public void getAndSaveMatches(){
 
         try {

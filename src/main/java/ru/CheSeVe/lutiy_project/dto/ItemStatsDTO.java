@@ -4,5 +4,6 @@ public record ItemStatsDTO(Short itemId,
                            Long matchesWithItem,
                            Double winRateWithItem,
                            Double winRateWithoutItem,
-                           Double impact) {
+                           Double impact,
+                           String imgUrl) {
 }

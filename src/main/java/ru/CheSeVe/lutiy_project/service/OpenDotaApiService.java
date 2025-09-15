@@ -39,11 +39,11 @@ public class OpenDotaApiService {
 
     private static final int LOBBY_TYPE = 7;
 
-    private static final int AVG_RANK_TIER = 80;
+    private static final int AVG_RANK_TIER = 75;
 
     private static final int MATCHES_PER_REQUEST = 500;
 
-    private static final Long DEFAULT_START_MATCH_ID = 8409138129L;
+    private static final Long DEFAULT_START_MATCH_ID = 8403200392L;
 
     private static final String BASE_URL = "https://api.opendota.com/api/explorer?sql=";
 

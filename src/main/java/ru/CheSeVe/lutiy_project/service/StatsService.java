@@ -57,7 +57,8 @@ public class StatsService {
                     projection.getMatchesWithItem(),
                     winRateWithItem,
                     winRateWithoutItem,
-                    winRateWithItem - winRateWithoutItem
+                    winRateWithItem - winRateWithoutItem,
+                    projection.getImgUrl()
             );
         }).sorted(Comparator.comparing(ItemStatsDTO::impact).reversed()).collect(Collectors.toList());
 

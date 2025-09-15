@@ -66,15 +66,17 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     @Query("SELECT it.itemId AS itemId, " +
             "COUNT(DISTINCT m) AS matchesWithItem, " +
-            "SUM(CASE WHEN mpA.isVictory = true  THEN 1 ELSE 0 END) AS winsWithItem " +
+            "COUNT(DISTINCT CASE WHEN mpA.isVictory = true THEN m.id ELSE NULL END) AS winsWithItem, " +
+            "i.imgUrl AS imgUrl " +
             "From Match m " +
             "JOIN m.matchPlayers mpA " +
             "JOIN m.matchPlayers mpB " +
             "JOIN mpA.items it " +
+            "JOIN Item i ON it.itemId = i.id " +
             "WHERE mpA.heroId = :heroA " +
             "AND mpB.heroId = :heroB " +
             "AND mpA.isVictory <> mpB.isVictory " +
-            "GROUP BY it.itemId")
+            "GROUP BY it.itemId, i.imgUrl")
     List<TotalMatchesWithItemProjection> getMatchesAndWinsWithItem(@Param("heroA") Short heroA,
                                                                    @Param("heroB") Short heroB);
 

@@ -51,3 +51,222 @@
 2025-09-09 18:48:30 ERROR - matchId=8435830522 reason=HTTP_ERROR body=null message=null
 2025-09-10 07:47:43 ERROR - matchId=8435830522 reason=HTTP_ERROR body=null message=null
 2025-09-10 16:12:20 ERROR - matchId=8435839067 reason=IO_ERROR body=null message=Connection reset
+2025-09-13 19:37:15 ERROR - matchId=8404056313 reason=HTTP_ERROR body=error code: 524 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-13 22:11:29 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-13 22:11:42 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:42 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:45 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:45 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:48 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:48 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:51 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:55 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:11:58 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:04 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:19 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:19 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:22 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:22 ERROR - reason=HTTP_ERROR, body=null, message=null
+2025-09-13 22:12:22 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:12:25 ERROR - matchId=8404056313 reason=HTTP_ERROR body=null message=null
+2025-09-13 22:37:16 ERROR - Stratz api returned empty match for matchId=8404056313
+2025-09-13 22:37:24 ERROR - Stratz api returned empty match for matchId=8404056313
+2025-09-13 22:37:33 ERROR - Stratz api returned empty match for matchId=8404056313
+2025-09-13 22:37:42 ERROR - Stratz api returned empty match for matchId=8404056313
+2025-09-13 22:37:51 ERROR - Stratz api returned empty match for matchId=8404056313
+2025-09-13 22:38:52 ERROR - Stratz api returned empty match for matchId=8404056313, skipping
+2025-09-14 12:01:48 ERROR - Stratz api returned empty match for matchId=8404619203, skipping
+2025-09-14 14:07:39 ERROR - matchId=8404901718 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 14:07:53 ERROR - matchId=8404901718 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:07:53 ERROR - Stratz api returned empty match for matchId=8404901718, skipping
+2025-09-14 14:09:09 ERROR - matchId=8404905115 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 14:18:00 ERROR - matchId=8404928602 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 14:18:13 ERROR - matchId=8404928602 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:18:13 ERROR - Stratz api returned empty match for matchId=8404928602, skipping
+2025-09-14 14:18:24 ERROR - matchId=8404929301 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:18:37 ERROR - matchId=8404929301 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:18:37 ERROR - Stratz api returned empty match for matchId=8404929301, skipping
+2025-09-14 14:18:47 ERROR - matchId=8404929502 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:00 ERROR - matchId=8404929502 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:00 ERROR - Stratz api returned empty match for matchId=8404929502, skipping
+2025-09-14 14:19:10 ERROR - matchId=8404929503 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:23 ERROR - matchId=8404929503 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:23 ERROR - Stratz api returned empty match for matchId=8404929503, skipping
+2025-09-14 14:19:33 ERROR - matchId=8404930010 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:46 ERROR - matchId=8404930010 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:19:46 ERROR - Stratz api returned empty match for matchId=8404930010, skipping
+2025-09-14 14:19:56 ERROR - matchId=8404931110 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:09 ERROR - matchId=8404931110 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:09 ERROR - Stratz api returned empty match for matchId=8404931110, skipping
+2025-09-14 14:20:19 ERROR - matchId=8404931117 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:32 ERROR - matchId=8404931117 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:32 ERROR - Stratz api returned empty match for matchId=8404931117, skipping
+2025-09-14 14:20:42 ERROR - matchId=8404931219 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:55 ERROR - matchId=8404931219 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:20:55 ERROR - Stratz api returned empty match for matchId=8404931219, skipping
+2025-09-14 14:21:05 ERROR - matchId=8404931400 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:21:18 ERROR - matchId=8404931400 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:21:18 ERROR - Stratz api returned empty match for matchId=8404931400, skipping
+2025-09-14 14:21:28 ERROR - matchId=8404931606 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:21:41 ERROR - matchId=8404931606 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:21:41 ERROR - Stratz api returned empty match for matchId=8404931606, skipping
+2025-09-14 14:21:51 ERROR - matchId=8404932404 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:04 ERROR - matchId=8404932404 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:04 ERROR - Stratz api returned empty match for matchId=8404932404, skipping
+2025-09-14 14:22:14 ERROR - matchId=8404933113 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:27 ERROR - matchId=8404933113 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:27 ERROR - Stratz api returned empty match for matchId=8404933113, skipping
+2025-09-14 14:22:37 ERROR - matchId=8404933211 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:50 ERROR - matchId=8404933211 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:22:50 ERROR - Stratz api returned empty match for matchId=8404933211, skipping
+2025-09-14 14:23:00 ERROR - matchId=8404933914 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:13 ERROR - matchId=8404933914 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:13 ERROR - Stratz api returned empty match for matchId=8404933914, skipping
+2025-09-14 14:23:23 ERROR - matchId=8404934105 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:36 ERROR - matchId=8404934105 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:36 ERROR - Stratz api returned empty match for matchId=8404934105, skipping
+2025-09-14 14:23:46 ERROR - matchId=8404934507 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:59 ERROR - matchId=8404934507 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:23:59 ERROR - Stratz api returned empty match for matchId=8404934507, skipping
+2025-09-14 14:24:09 ERROR - matchId=8404934608 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:24:22 ERROR - matchId=8404934608 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:24:22 ERROR - Stratz api returned empty match for matchId=8404934608, skipping
+2025-09-14 14:24:32 ERROR - matchId=8404934700 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:24:45 ERROR - matchId=8404934700 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:24:45 ERROR - Stratz api returned empty match for matchId=8404934700, skipping
+2025-09-14 14:24:55 ERROR - matchId=8404934708 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:08 ERROR - matchId=8404934708 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:08 ERROR - Stratz api returned empty match for matchId=8404934708, skipping
+2025-09-14 14:25:18 ERROR - matchId=8404934716 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:31 ERROR - matchId=8404934716 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:31 ERROR - Stratz api returned empty match for matchId=8404934716, skipping
+2025-09-14 14:25:41 ERROR - matchId=8404935615 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:54 ERROR - matchId=8404935615 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:25:54 ERROR - Stratz api returned empty match for matchId=8404935615, skipping
+2025-09-14 14:26:04 ERROR - matchId=8404935812 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:26:17 ERROR - matchId=8404935812 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:26:17 ERROR - Stratz api returned empty match for matchId=8404935812, skipping
+2025-09-14 14:26:27 ERROR - matchId=8404936204 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:26:40 ERROR - matchId=8404936204 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:26:40 ERROR - Stratz api returned empty match for matchId=8404936204, skipping
+2025-09-14 14:26:50 ERROR - matchId=8404936319 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:03 ERROR - matchId=8404936319 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:03 ERROR - Stratz api returned empty match for matchId=8404936319, skipping
+2025-09-14 14:27:13 ERROR - matchId=8404936403 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:26 ERROR - matchId=8404936403 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:26 ERROR - Stratz api returned empty match for matchId=8404936403, skipping
+2025-09-14 14:27:36 ERROR - matchId=8404936501 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:49 ERROR - matchId=8404936501 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:27:49 ERROR - Stratz api returned empty match for matchId=8404936501, skipping
+2025-09-14 14:27:59 ERROR - matchId=8404937707 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:12 ERROR - matchId=8404937707 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:12 ERROR - Stratz api returned empty match for matchId=8404937707, skipping
+2025-09-14 14:28:23 ERROR - matchId=8404938217 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:36 ERROR - matchId=8404938217 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:36 ERROR - Stratz api returned empty match for matchId=8404938217, skipping
+2025-09-14 14:28:46 ERROR - matchId=8404939115 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:59 ERROR - matchId=8404939115 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:28:59 ERROR - Stratz api returned empty match for matchId=8404939115, skipping
+2025-09-14 14:29:09 ERROR - matchId=8404939600 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:29:22 ERROR - matchId=8404939600 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:29:22 ERROR - Stratz api returned empty match for matchId=8404939600, skipping
+2025-09-14 14:29:32 ERROR - matchId=8404939710 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:29:45 ERROR - matchId=8404939710 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:29:45 ERROR - Stratz api returned empty match for matchId=8404939710, skipping
+2025-09-14 14:29:55 ERROR - matchId=8404939905 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:30:08 ERROR - matchId=8404939905 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:30:08 ERROR - Stratz api returned empty match for matchId=8404939905, skipping
+2025-09-14 14:30:18 ERROR - matchId=8404940511 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:30:31 ERROR - matchId=8404940511 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 14:30:31 ERROR - Stratz api returned empty match for matchId=8404940511, skipping
+2025-09-14 14:30:41 ERROR - matchId=8404940601 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:55:03 ERROR - matchId=8405186707 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 15:55:16 ERROR - matchId=8405186707 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:55:16 ERROR - Stratz api returned empty match for matchId=8405186707, skipping
+2025-09-14 15:55:26 ERROR - matchId=8405187018 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:55:39 ERROR - matchId=8405187018 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:55:39 ERROR - Stratz api returned empty match for matchId=8405187018, skipping
+2025-09-14 15:55:49 ERROR - matchId=8405187117 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:02 ERROR - matchId=8405187117 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:02 ERROR - Stratz api returned empty match for matchId=8405187117, skipping
+2025-09-14 15:56:12 ERROR - matchId=8405187718 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:25 ERROR - matchId=8405187718 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:25 ERROR - Stratz api returned empty match for matchId=8405187718, skipping
+2025-09-14 15:56:35 ERROR - matchId=8405188415 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:48 ERROR - matchId=8405188415 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:56:48 ERROR - Stratz api returned empty match for matchId=8405188415, skipping
+2025-09-14 15:56:59 ERROR - matchId=8405188617 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:57:12 ERROR - matchId=8405188617 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:57:12 ERROR - Stratz api returned empty match for matchId=8405188617, skipping
+2025-09-14 15:57:22 ERROR - matchId=8405189206 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:57:35 ERROR - matchId=8405189206 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 15:57:35 ERROR - Stratz api returned empty match for matchId=8405189206, skipping
+2025-09-14 15:57:45 ERROR - matchId=8405189317 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 16:12:38 ERROR - reason=HTTP_ERROR, body=error code: 524, message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-14 16:13:38 ERROR - reason=HTTP_ERROR, body=error code: 521, message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-14 17:07:21 ERROR - matchId=8405354815 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 17:07:34 ERROR - matchId=8405354815 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:07:34 ERROR - Stratz api returned empty match for matchId=8405354815, skipping
+2025-09-14 17:07:44 ERROR - matchId=8405354900 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:07:57 ERROR - matchId=8405354900 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:07:57 ERROR - Stratz api returned empty match for matchId=8405354900, skipping
+2025-09-14 17:08:07 ERROR - matchId=8405355605 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:08:20 ERROR - matchId=8405355605 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:08:20 ERROR - Stratz api returned empty match for matchId=8405355605, skipping
+2025-09-14 17:08:30 ERROR - matchId=8405355717 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:08:43 ERROR - matchId=8405355717 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:08:43 ERROR - Stratz api returned empty match for matchId=8405355717, skipping
+2025-09-14 17:08:53 ERROR - matchId=8405355814 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:09:06 ERROR - matchId=8405355814 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:09:06 ERROR - Stratz api returned empty match for matchId=8405355814, skipping
+2025-09-14 17:09:16 ERROR - matchId=8405356113 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 17:12:00 ERROR - reason=HTTP_ERROR, body=error code: 524, message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-09-14 18:51:45 ERROR - matchId=8405583118 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 18:51:58 ERROR - matchId=8405583118 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:51:58 ERROR - Stratz api returned empty match for matchId=8405583118, skipping
+2025-09-14 18:52:08 ERROR - matchId=8405583201 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:52:21 ERROR - matchId=8405583201 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:52:21 ERROR - Stratz api returned empty match for matchId=8405583201, skipping
+2025-09-14 18:52:31 ERROR - matchId=8405583211 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:52:44 ERROR - matchId=8405583211 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:52:44 ERROR - Stratz api returned empty match for matchId=8405583211, skipping
+2025-09-14 18:52:54 ERROR - matchId=8405584215 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:07 ERROR - matchId=8405584215 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:07 ERROR - Stratz api returned empty match for matchId=8405584215, skipping
+2025-09-14 18:53:18 ERROR - matchId=8405584410 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:31 ERROR - matchId=8405584410 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:31 ERROR - Stratz api returned empty match for matchId=8405584410, skipping
+2025-09-14 18:53:41 ERROR - matchId=8405584813 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:54 ERROR - matchId=8405584813 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:53:54 ERROR - Stratz api returned empty match for matchId=8405584813, skipping
+2025-09-14 18:54:04 ERROR - matchId=8405585705 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:54:17 ERROR - matchId=8405585705 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:54:17 ERROR - Stratz api returned empty match for matchId=8405585705, skipping
+2025-09-14 18:57:00 ERROR - matchId=8405595302 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 18:57:13 ERROR - matchId=8405595302 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:57:13 ERROR - Stratz api returned empty match for matchId=8405595302, skipping
+2025-09-14 18:57:23 ERROR - matchId=8405595516 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:57:36 ERROR - matchId=8405595516 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:57:36 ERROR - Stratz api returned empty match for matchId=8405595516, skipping
+2025-09-14 18:57:46 ERROR - matchId=8405595902 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:57:59 ERROR - matchId=8405595902 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:57:59 ERROR - Stratz api returned empty match for matchId=8405595902, skipping
+2025-09-14 18:58:09 ERROR - matchId=8405596202 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:58:22 ERROR - matchId=8405596202 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:58:22 ERROR - Stratz api returned empty match for matchId=8405596202, skipping
+2025-09-14 18:58:32 ERROR - matchId=8405596711 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:58:45 ERROR - matchId=8405596711 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:58:45 ERROR - Stratz api returned empty match for matchId=8405596711, skipping
+2025-09-14 18:58:56 ERROR - matchId=8405596913 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:59:09 ERROR - matchId=8405596913 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:59:09 ERROR - Stratz api returned empty match for matchId=8405596913, skipping
+2025-09-14 18:59:19 ERROR - matchId=8405596915 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:59:32 ERROR - matchId=8405596915 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 18:59:32 ERROR - Stratz api returned empty match for matchId=8405596915, skipping
+2025-09-14 18:59:42 ERROR - matchId=8405597004 reason=HTTP_ERROR body=null message=HTTP connect timed out
+2025-09-14 19:01:57 ERROR - matchId=8405603903 reason=IO_ERROR body=null message=Connection reset
+2025-09-14 20:13:41 ERROR - Stratz api returned empty match for matchId=8405747608, skipping

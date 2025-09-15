@@ -4,4 +4,5 @@ public interface TotalMatchesWithItemProjection {
     Short getItemId();
     Long getMatchesWithItem();
     Long getWinsWithItem();
+    String getImgUrl();
 }

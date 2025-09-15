@@ -24,6 +24,7 @@ import java.util.Optional;
 public class BetterMatchFetchService {
 
     public static final Logger log = LoggerFactory.getLogger(BetterMatchFetchService.class);
+    private static final Logger failedLog = LoggerFactory.getLogger("FailedMatchesLogger");
 
     final MatchRepository matchRepository;
     final StratzApiService stratzApiService;
@@ -74,6 +75,8 @@ public class BetterMatchFetchService {
 
             if (dtoOptional.isEmpty()) {
                 log.info("Stratz api returned empty match for matchId={}", matchId);
+                failedLog.error("Stratz api returned empty match for matchId={}, skipping", matchId);
+                matchIdRepository.deleteById(matchId);
                 return;
             }
 
@@ -83,6 +86,7 @@ public class BetterMatchFetchService {
                 Match match = mapper.map(dto);
                 matchRepository.save(match);
                 log.info("saved match {} to database", matchId);
+
             } else {log.info("skipped match {}. Bracket={} LobbyType={}", matchId, dto.bracket(), dto.lobbyType());}
 
             matchIdRepository.deleteById(matchId);

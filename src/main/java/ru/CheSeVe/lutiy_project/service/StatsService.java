@@ -7,9 +7,13 @@ import ru.CheSeVe.lutiy_project.dto.ItemStatsDTO;
 import ru.CheSeVe.lutiy_project.dto.MatchupStatsDTO;
 import ru.CheSeVe.lutiy_project.repository.MatchRepository;
 import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesProjection;
+import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesWithItemInMatchupProjection;
 import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesWithItemProjection;
+
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,8 +21,12 @@ public class StatsService {
 
     private final MatchRepository repository;
 
-    private static final Logger log = LoggerFactory.getLogger(StatsService.class);
+    private static final double SMOOTHING_COEF = 7.0;
 
+    private static final int MINIMAL_ITEM_COUNT = 4;
+
+
+    private static final Logger log = LoggerFactory.getLogger(StatsService.class);
 
     public StatsService(MatchRepository repository) {
         this.repository = repository;
@@ -26,43 +34,67 @@ public class StatsService {
 
     public MatchupStatsDTO getMatchUpStats(Short heroA, Short heroB) {
 
-        TotalMatchesProjection totals = repository.getTotalMatchesAndWins(heroA, heroB);
-
-        if (totals == null) {
-            log.debug("TotalMatches for heroA={} heroB={} is null", heroA, heroB);
-            return new MatchupStatsDTO(0L, List.of());
+        if (heroA == null || heroB == null) {
+            throw new IllegalArgumentException("Invalid hero parameters");
         }
 
-        List<TotalMatchesWithItemProjection> itemStatsData = repository.getMatchesAndWinsWithItem(heroA, heroB);
+        List<TotalMatchesWithItemProjection> totalMatchWithItemProj = repository.getMatchesAndWinsWithItem(heroA);
 
-        if (itemStatsData.isEmpty()) {
-            log.debug("List of itemStats for heroA={} heroB={} is empty", heroA, heroB);
-            return new MatchupStatsDTO(totals.getTotalMatches(), List.of());
-        }
+        Map<Short, TotalMatchesWithItemProjection> totalMatchWithItemMap = totalMatchWithItemProj.stream()
+                .collect(Collectors.toMap(
+                        TotalMatchesWithItemProjection::getItemId,
+                        Function.identity()
+                ));
 
-        List<ItemStatsDTO> itemStats = itemStatsData.stream().map(projection -> {
+        TotalMatchesProjection totalMatchProj = repository.getTotalMatchesAndWins(heroA, heroB);
+        List<TotalMatchesWithItemInMatchupProjection> itemStatsInMatchupProjList = repository.getMatchesAndWinsInMatchupWithItem(heroA, heroB);
 
-            Double winRateWithItem = projection.getMatchesWithItem() != 0
-                    ? ((double) projection.getWinsWithItem() / projection.getMatchesWithItem())*100
-                    : 0.0;
+        List<ItemStatsDTO> itemStats = itemStatsInMatchupProjList.stream()
+                .filter(itemStatsproj -> itemStatsproj.getMatchesWithItem() >= MINIMAL_ITEM_COUNT)
+                .map(projectionInMatchup -> {
+                    Short itemId = projectionInMatchup.getItemId();
+                    String imgUrl = projectionInMatchup.getImgUrl();
+                    Long matchupMatchesWithItem = projectionInMatchup.getMatchesWithItem();
+                    Long matchupWinsWithItem = projectionInMatchup.getWinsWithItem();
 
-            long winsWithoutItem = totals.getTotalWins() - projection.getWinsWithItem();
-            long matchesWithoutItem = totals.getTotalMatches() - projection.getMatchesWithItem();
+                    TotalMatchesWithItemProjection totalMatchesWithItemProj = totalMatchWithItemMap.get(itemId);
 
-            Double winRateWithoutItem = totals.getTotalMatches() - projection.getMatchesWithItem() != 0
-                    ? ((double) winsWithoutItem / matchesWithoutItem)*100
-                    : 0.0;
-            return new ItemStatsDTO(
-                    projection.getItemId(),
-                    projection.getMatchesWithItem(),
-                    winRateWithItem,
-                    winRateWithoutItem,
-                    winRateWithItem - winRateWithoutItem,
-                    projection.getImgUrl()
-            );
-        }).sorted(Comparator.comparing(ItemStatsDTO::impact).reversed()).collect(Collectors.toList());
+                    if (totalMatchesWithItemProj == null) {
+                        log.warn("no such itemId={} in matchUp heroA={}, heroB={} for some reason", itemId, heroA, heroB);
+                    }
 
-        return new MatchupStatsDTO(totals.getTotalMatches(), itemStats);
+                    long heroATotalMatchesWithItem = totalMatchesWithItemProj != null ? totalMatchesWithItemProj.getTotalMatchesWithItem()
+                            : 0L;
+
+                    long heroATotalWinsWithItem = totalMatchesWithItemProj != null ? totalMatchesWithItemProj.getTotalWinsWithItem()
+                            : 0L;
+
+                    double globalWinrateWithItem = heroATotalMatchesWithItem != 0 ? (double)heroATotalWinsWithItem / heroATotalMatchesWithItem
+                            : 0.0;
+
+                    double roughWinrate = matchupMatchesWithItem != 0 ? (double)matchupWinsWithItem / matchupMatchesWithItem
+                            : 0.0;
+
+                    double weightedWinrate = (matchupWinsWithItem + SMOOTHING_COEF*globalWinrateWithItem)
+                            / (matchupMatchesWithItem + SMOOTHING_COEF);
+
+                    double impact = weightedWinrate - globalWinrateWithItem;
+
+                    return new ItemStatsDTO(itemId,
+                            matchupMatchesWithItem,
+                            roughWinrate*100,
+                            weightedWinrate*100,
+                            impact*100,
+                            imgUrl);
+                }).sorted(Comparator.comparing(ItemStatsDTO::impact).reversed())
+                    .collect(Collectors.toList());
+
+        long totalMatches = totalMatchProj.getTotalMatches();
+
+        double totalWinrate = totalMatches != 0 ? (double)totalMatchProj.getTotalWins() / totalMatches
+                : 0.0;
+
+        return new MatchupStatsDTO(totalMatches, totalWinrate*100, itemStats);
     }
 
 }

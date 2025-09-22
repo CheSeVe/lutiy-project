@@ -1,9 +1,9 @@
 package ru.CheSeVe.lutiy_project.dto;
 
 public record ItemStatsDTO(Short itemId,
-                           Long matchesWithItem,
-                           Double winRateWithItem,
-                           Double winRateWithoutItem,
+                           Long totalMatches,
+                           Double roughWinrate,
+                           Double weightedWinrate,
                            Double impact,
                            String imgUrl) {
 }

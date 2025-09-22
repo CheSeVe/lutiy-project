@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* Earth Spirit fullscreen background */
         .earth-spirit-bg {
             position: absolute;
             top: 0;
@@ -164,7 +163,7 @@
         .register-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(90deg, #1a3d5c 0%, #0a6b0a 100%); /* Зеленый градиент */
+            background: linear-gradient(90deg, #1a3d5c 0%, #0a6b0a 100%);
             border: none;
             border-radius: 6px;
             color: #e6e6e6;
@@ -180,7 +179,7 @@
 
         .register-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(10, 107, 10, 0.4); /* Зеленая тень */
+            box-shadow: 0 5px 15px rgba(10, 107, 10, 0.4);
         }
 
         .register-btn:active {
@@ -196,7 +195,7 @@
         <div class="logo">
             <div class="logo-text">Dota Stats</div>
         </div>
-        <h2 class="header-title">Статистика говна ебаного</h2>
+        <h2 class="header-title">Matchup item stats</h2>
     </div>
 
     <form class="login-form" method="post" action="/login">
@@ -208,7 +207,7 @@
                         id="username"
                         name="username"
                         class="form-control"
-                        placeholder="ну привет)"
+                        placeholder="username"
                         required
                         autofocus>
             </div>
@@ -222,7 +221,7 @@
                         id="password"
                         name="password"
                         class="form-control"
-                        placeholder=")))))))00)"
+                        placeholder="password"
                         required>
             </div>
         </div>
@@ -232,11 +231,11 @@
     </form>
     <div id="error-message"
          style="display: none; color: #ff6b6b; background: rgba(139, 0, 0, 0.2); padding: 10px; margin: 0 25px 15px; border-radius: 6px; border: 1px solid #8B0000; text-align: center;">
-        <span style="margin-right: 8px;">❌</span> ЛОГПАСС НЕВЕРНЫЙ СОСИ ХУЙ
+        <span style="margin-right: 8px;">❌</span> Неверный логин или пароль
     </div>
     <div id="logout-message"
          style="display: none; color: #ffd700; background: rgba(200, 169, 81, 0.2); padding: 10px; margin: 0 25px 15px; border-radius: 6px; border: 1px solid #c8a951; text-align: center;">
-        <span style="margin-right: 8px;">🚪</span> ПАКА ПАКА
+        <span style="margin-right: 8px;">🚪</span> Вы успешно вышли из аккаунта
     </div>
 
     <div class="form-actions">

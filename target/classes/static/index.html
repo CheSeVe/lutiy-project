@@ -172,6 +172,23 @@
             background: rgba(26, 61, 92, 0.5);
             color: #c8a951;
             font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        th:hover {
+            background: rgba(26, 61, 92, 0.7);
+        }
+
+        th.sort-asc::after {
+            content: " ▲";
+            opacity: 0.7;
+        }
+
+        th.sort-desc::after {
+            content: " ▼";
+            opacity: 0.7;
         }
 
         tr:nth-child(even) {
@@ -184,6 +201,10 @@
             object-fit: cover;
             display: block;
             margin: 0 auto;
+        }
+
+        .stats-info {
+            margin-bottom: 10px;
         }
 
         @media (max-width: 900px) {
@@ -220,233 +241,330 @@
 </div>
 
 <script>
-        fetch('/me')
-            .then(res => res.json())
-            .then(user => {
-                return fetch(`/stratz/players/${user.steamAccountId}/name`);
-            })
-            .then(res => res.text())
-            .then(name => {
-                document.querySelector('#steamName').textContent = `привет, ${name}`;
-            });
-    </script>
+    fetch('/me')
+        .then(res => res.json())
+        .then(user => {
+            return fetch(`/stratz/players/${user.steamAccountId}/name`);
+        })
+        .then(res => res.text())
+        .then(name => {
+            document.querySelector('#steamName').textContent = `привет, ${name}`;
+        });
+</script>
 
 <script>
-        let selectedHeroMainId = null;
-        let selectedHeroEnemyId = null;
+    let selectedHeroMainId = null;
+    let selectedHeroEnemyId = null;
+    let currentItems = [];
+    let currentSortField = 'impact';
+    let currentSortDirection = 'desc';
 
-        fetch('/api/heroes')
-            .then(res => res.json())
-            .then(heroes => {
-                const allHeroes = document.getElementById('all-heroes');
-                if (!allHeroes) {
-                    console.error("No such element with id 'all-heroes'");
+    fetch('/api/heroes')
+        .then(res => res.json())
+        .then(heroes => {
+            const allHeroes = document.getElementById('all-heroes');
+            if (!allHeroes) {
+                console.error("No such element with id 'all-heroes'");
+                return;
+            }
+
+            heroes.forEach(hero => {
+                const heroIcon = document.createElement('img');
+                heroIcon.src = hero.imgUrl;
+                heroIcon.alt = hero.heroName;
+                heroIcon.dataset.heroId = hero.heroId;
+                heroIcon.dataset.heroName = hero.heroName;
+                allHeroes.appendChild(heroIcon);
+            });
+
+            // Функция для обновления подсветки героев
+            function updateHeroSelection() {
+                const heroIcons = allHeroes.querySelectorAll('img');
+                heroIcons.forEach(icon => {
+                    icon.classList.remove('selected-main', 'selected-enemy');
+
+                    const heroId = icon.dataset.heroId;
+                    if (heroId == selectedHeroMainId) {
+                        icon.classList.add('selected-main');
+                    } else if (heroId == selectedHeroEnemyId) {
+                        icon.classList.add('selected-enemy');
+                    }
+                });
+            }
+
+            const heroIcons = allHeroes.querySelectorAll('img');
+            heroIcons.forEach(icon => {
+                icon.addEventListener('click', function(event) {
+                    const clickedHeroId = event.target.dataset.heroId;
+                    const clickedHeroName = event.target.dataset.heroName;
+
+                    console.log(`Clicked hero: ${clickedHeroName} (ID: ${clickedHeroId})`);
+
+                    if (clickedHeroId == selectedHeroMainId) {
+                        console.log("Отмена выбора главного героя");
+                        selectedHeroMainId = null;
+                        document.getElementById('selected-hero-main').textContent = 'не выбран';
+                    } else if (clickedHeroId == selectedHeroEnemyId) {
+                        console.log("Отмена выбора противника");
+                        selectedHeroEnemyId = null;
+                        document.getElementById('selected-hero-enemy').textContent = 'не выбран';
+                    } else if (selectedHeroMainId === null) {
+                        console.log("Выбор главного героя");
+                        selectedHeroMainId = clickedHeroId;
+                        document.getElementById('selected-hero-main').textContent = clickedHeroName;
+                    } else if (selectedHeroEnemyId === null && clickedHeroId !== selectedHeroMainId) {
+                        console.log("Выбор противника");
+                        selectedHeroEnemyId = clickedHeroId;
+                        document.getElementById('selected-hero-enemy').textContent = clickedHeroName;
+                    }
+
+                    // Обновляем подсветку после изменения выбора
+                    updateHeroSelection();
+                    updateGetItemsButton();
+                });
+            });
+
+            function updateGetItemsButton() {
+                const button = document.getElementById('get-items-button');
+                if (button) {
+                    button.disabled = !(selectedHeroMainId !== null && selectedHeroEnemyId !== null);
+                }
+            }
+
+            function displayError(message) {
+                const resultsContainer = document.getElementById('results-container');
+                if (resultsContainer) {
+                    resultsContainer.innerHTML = '';
+                    const errorElement = document.createElement('p');
+                    errorElement.style.color = '#ff6b6b';
+                    errorElement.textContent = `Ошибка: ${message}`;
+                    resultsContainer.appendChild(errorElement);
+                }
+            }
+
+            // Функция для сортировки элементов
+            function sortItems(field, direction) {
+                currentItems.sort((a, b) => {
+                    let aValue = a[field];
+                    let bValue = b[field];
+
+                    // Обработка null значений
+                    if (aValue === null) aValue = direction === 'asc' ? Infinity : -Infinity;
+                    if (bValue === null) bValue = direction === 'asc' ? Infinity : -Infinity;
+
+                    if (direction === 'asc') {
+                        return aValue - bValue;
+                    } else {
+                        return bValue - aValue;
+                    }
+                });
+            }
+
+            // Функция для обработки клика по заголовку
+            function handleHeaderClick(field) {
+                if (field === currentSortField) {
+                    // Меняем направление сортировки
+                    currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    // Устанавливаем новое поле сортировки
+                    currentSortField = field;
+                    currentSortDirection = 'desc';
+                }
+
+                // Сортируем элементы
+                sortItems(currentSortField, currentSortDirection);
+
+                // Перерисовываем таблицу
+                renderItemsTable();
+            }
+
+            // Функция для отрисовки таблицы с предметами
+            function renderItemsTable() {
+                const tbody = document.querySelector('#results-table tbody');
+                tbody.innerHTML = '';
+
+                currentItems.forEach(itemDto => {
+                    const row = document.createElement('tr');
+
+                    const itemId = itemDto.itemId ?? 'null';
+                    const itemImgUrl = itemDto.imgUrl ?? '';
+                    const matchesWithItem = itemDto.totalMatches ?? 'null';
+                    const roughWinrate = itemDto.roughWinrate ?? 'null';
+                    const weightedWinrate = itemDto.weightedWinrate ?? 'null';
+                    const impact = itemDto.impact ?? 'null';
+
+                    // Ячейка с иконкой предмета
+                    const itemImageCell = document.createElement('td');
+                    if (itemImgUrl) {
+                        const itemImage = document.createElement('img');
+                        itemImage.src = itemImgUrl;
+                        itemImage.alt = `Item ${itemId}`;
+                        itemImage.classList.add('item-image');
+                        itemImageCell.appendChild(itemImage);
+                    } else {
+                        itemImageCell.textContent = `Item ${itemId}`;
+                    }
+
+                    // Ячейка с количеством матчей
+                    const matchesCell = document.createElement('td');
+                    matchesCell.textContent = matchesWithItem;
+
+                    // Ячейка с винрейтом
+                    const roughWinrateCell = document.createElement('td');
+                    roughWinrateCell.textContent = roughWinrate !== 'null' ? roughWinrate.toFixed(2) : 'null';
+
+                    // Ячейка с взвешенным винрейтом
+                    const weightedWinrateCell = document.createElement('td');
+                    weightedWinrateCell.textContent = weightedWinrate !== 'null' ? weightedWinrate.toFixed(2) : 'null';
+
+                    // Ячейка с impact
+                    const impactCell = document.createElement('td');
+                    impactCell.textContent = impact !== 'null' ? impact.toFixed(2) : 'null';
+
+                    row.appendChild(itemImageCell);
+                    row.appendChild(matchesCell);
+                    row.appendChild(roughWinrateCell);
+                    row.appendChild(weightedWinrateCell);
+                    row.appendChild(impactCell);
+
+                    tbody.appendChild(row);
+                });
+
+                // Обновляем индикаторы сортировки в заголовках
+                updateSortIndicators();
+            }
+
+            // Функция для обновления индикаторов сортировки
+            function updateSortIndicators() {
+                // Убираем все классы сортировки
+                document.querySelectorAll('#results-table th').forEach(th => {
+                    th.classList.remove('sort-asc', 'sort-desc');
+                });
+
+                // Добавляем класс активной сортировки
+                const activeHeader = document.querySelector(`#results-table th[data-field="${currentSortField}"]`);
+                if (activeHeader) {
+                    activeHeader.classList.add(`sort-${currentSortDirection}`);
+                }
+            }
+
+            function displayMatchupStats(matchupStatsDto) {
+                const resultsContainer = document.getElementById('results-container');
+                if (!resultsContainer) {
+                    console.error("Контейнер для результатов '#results-container' не найден!");
+                    displayError("Контейнер для результатов не найден на странице.");
                     return;
                 }
 
-                heroes.forEach(hero => {
-                    const heroIcon = document.createElement('img');
-                    heroIcon.src = hero.imgUrl;
-                    heroIcon.alt = hero.heroName;
-                    heroIcon.dataset.heroId = hero.heroId;
-                    heroIcon.dataset.heroName = hero.heroName;
-                    allHeroes.appendChild(heroIcon);
+                resultsContainer.innerHTML = '';
+
+                if (!matchupStatsDto || matchupStatsDto.totalMatches === 0 || !matchupStatsDto.items || matchupStatsDto.items.length === 0) {
+                    const noDataElement = document.createElement('p');
+                    noDataElement.textContent = 'Для выбранной пары героев недостаточно данных или предметы не найдены.';
+                    resultsContainer.appendChild(noDataElement);
+                    return;
+                }
+
+                // Отображаем общую статистику
+                const totalMatchesElement = document.createElement('p');
+                totalMatchesElement.textContent = `Всего матчей: ${matchupStatsDto.totalMatches}`;
+                totalMatchesElement.classList.add('stats-info');
+                resultsContainer.appendChild(totalMatchesElement);
+
+                const winrateElement = document.createElement('p');
+                winrateElement.textContent = `Винрейт героя: ${matchupStatsDto.matchupWinrate?.toFixed(2) ?? 'null'}%`;
+                winrateElement.classList.add('stats-info');
+                resultsContainer.appendChild(winrateElement);
+
+                // Сохраняем items для сортировки
+                currentItems = [...matchupStatsDto.items];
+                currentSortField = 'impact';
+                currentSortDirection = 'desc';
+
+                // Создаем таблицу
+                const table = document.createElement('table');
+                table.id = 'results-table';
+                table.border = '1';
+
+                // Создаем заголовок таблицы
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+
+                // Заголовки столбцов
+                const headers = [
+                    { field: 'imgUrl', label: 'Предмет', sortable: false },
+                    { field: 'totalMatches', label: 'Матчей с предметом', sortable: true },
+                    { field: 'roughWinrate', label: 'Винрейт', sortable: true },
+                    { field: 'weightedWinrate', label: 'Взвешенный винрейт', sortable: true },
+                    { field: 'impact', label: 'Impact', sortable: true }
+                ];
+
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header.label;
+                    if (header.sortable) {
+                        th.dataset.field = header.field;
+                        th.addEventListener('click', () => handleHeaderClick(header.field));
+                    }
+                    headerRow.appendChild(th);
                 });
 
-                // Функция для обновления подсветки героев
-                function updateHeroSelection() {
-                    const heroIcons = allHeroes.querySelectorAll('img');
-                    heroIcons.forEach(icon => {
-                        icon.classList.remove('selected-main', 'selected-enemy');
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
 
-                        const heroId = icon.dataset.heroId;
-                        if (heroId == selectedHeroMainId) {
-                            icon.classList.add('selected-main');
-                        } else if (heroId == selectedHeroEnemyId) {
-                            icon.classList.add('selected-enemy');
-                        }
-                    });
-                }
+                // Создаем тело таблицы
+                const tbody = document.createElement('tbody');
+                table.appendChild(tbody);
 
-                const heroIcons = allHeroes.querySelectorAll('img');
-                heroIcons.forEach(icon => {
-                    icon.addEventListener('click', function(event) {
-                        const clickedHeroId = event.target.dataset.heroId;
-                        const clickedHeroName = event.target.dataset.heroName;
+                resultsContainer.appendChild(table);
 
-                        console.log(`Clicked hero: ${clickedHeroName} (ID: ${clickedHeroId})`);
+                // Первоначальная отрисовка таблицы
+                renderItemsTable();
+            }
 
-                        if (clickedHeroId == selectedHeroMainId) {
-                            console.log("Отмена выбора главного героя");
-                            selectedHeroMainId = null;
-                            document.getElementById('selected-hero-main').textContent = 'не выбран';
-                        } else if (clickedHeroId == selectedHeroEnemyId) {
-                            console.log("Отмена выбора противника");
-                            selectedHeroEnemyId = null;
-                            document.getElementById('selected-hero-enemy').textContent = 'не выбран';
-                        } else if (selectedHeroMainId === null) {
-                            console.log("Выбор главного героя");
-                            selectedHeroMainId = clickedHeroId;
-                            document.getElementById('selected-hero-main').textContent = clickedHeroName;
-                        } else if (selectedHeroEnemyId === null && clickedHeroId !== selectedHeroMainId) {
-                            console.log("Выбор противника");
-                            selectedHeroEnemyId = clickedHeroId;
-                            document.getElementById('selected-hero-enemy').textContent = clickedHeroName;
-                        }
+            const getItemsButton = document.getElementById('get-items-button');
 
-                        // Обновляем подсветку после изменения выбора
-                        updateHeroSelection();
-                        updateGetItemsButton();
-                    });
+            if (getItemsButton) {
+                getItemsButton.addEventListener('click', function() {
+                    console.log("Кнопка 'Получить предметы' нажата");
+                    console.log("Выбранный главный герой ID:", selectedHeroMainId);
+                    console.log("Выбранный противник ID:", selectedHeroEnemyId);
+
+                    fetchMatchupStats(selectedHeroMainId, selectedHeroEnemyId);
                 });
+            } else {
+                console.error("Кнопка 'get-items-button' не найдена на странице!");
+            }
 
-                function updateGetItemsButton() {
-                    const button = document.getElementById('get-items-button');
-                    if (button) {
-                         button.disabled = !(selectedHeroMainId !== null && selectedHeroEnemyId !== null);
-                    }
+            function fetchMatchupStats(mainHeroId, enemyHeroId) {
+                if (!mainHeroId || !enemyHeroId) {
+                    console.error("Ошибка: Не выбраны оба героя для запроса статистики.");
+                    displayError("Пожалуйста, выберите обоих героев.");
+                    return;
                 }
 
-                function displayError(message) {
-                    const resultsContainer = document.getElementById('results-container');
-                    if (resultsContainer) {
-                        resultsContainer.innerHTML = '';
-                        const errorElement = document.createElement('p');
-                        errorElement.style.color = '#ff6b6b';
-                        errorElement.textContent = `Ошибка: ${message}`;
-                        resultsContainer.appendChild(errorElement);
-                    }
-                }
+                const url = `/api/stats?mainHeroId=${encodeURIComponent(mainHeroId)}&enemyHeroId=${encodeURIComponent(enemyHeroId)}`;
+                console.log("Отправка запроса на:", url);
 
-                function displayMatchupStats(matchupStatsDto) {
-                    const resultsContainer = document.getElementById('results-container');
-                    if (!resultsContainer) {
-                        console.error("Контейнер для результатов '#results-container' не найден!");
-                        displayError("Контейнер для результатов не найден на странице.");
-                        return;
-                    }
-
-                    resultsContainer.innerHTML = '';
-
-                    if (!matchupStatsDto || matchupStatsDto.totalMatches === 0 || !matchupStatsDto.items || matchupStatsDto.items.length === 0) {
-                        const noDataElement = document.createElement('p');
-                        noDataElement.textContent = 'Для выбранной пары героев недостаточно данных или предметы не найдены.';
-                        resultsContainer.appendChild(noDataElement);
-                        return;
-                    }
-
-                    const totalMatchesElement = document.createElement('p');
-                    totalMatchesElement.textContent = `Всего матчей: ${matchupStatsDto.totalMatches}`;
-                    resultsContainer.appendChild(totalMatchesElement);
-
-                    const table = document.createElement('table');
-                    table.border = '1';
-
-                    const thead = document.createElement('thead');
-                    const headerRow = document.createElement('tr');
-                    ['ID Предмета', 'Предмет', 'Матчей с предметом', 'Winrate с предметом (%)', 'Winrate без предмета (%)', 'Impact'].forEach(text => {
-                        const th = document.createElement('th');
-                        th.textContent = text;
-                        headerRow.appendChild(th);
-                    });
-                    thead.appendChild(headerRow);
-                    table.appendChild(thead);
-
-                    const tbody = document.createElement('tbody');
-                    const items = matchupStatsDto.items ?? [];
-                    items.forEach(itemDto => {
-                        const row = document.createElement('tr');
-
-                        const itemId = itemDto.itemId ?? itemDto.item_id ?? 'N/A';
-                        const itemImgUrl = itemDto.imgUrl ?? itemDto.image_url ?? '';
-                        const matchesWithItem = itemDto.matchesWithItem ?? itemDto.matches_with_item ?? 0;
-                        const winRateWithItem = itemDto.winRateWithItem ?? itemDto.win_rate_with_item ?? 0;
-                        const winRateWithoutItem = itemDto.winRateWithoutItem ?? itemDto.win_rate_without_item ?? 0;
-                        const impact = itemDto.impact ?? 0;
-
-                        const itemIdCell = document.createElement('td');
-                        itemIdCell.textContent = itemId;
-
-                        const itemImageCell = document.createElement('td');
-                        if (itemImgUrl) {
-                            const itemImage = document.createElement('img');
-                            itemImage.src = itemImgUrl;
-                            itemImage.alt = `Item ${itemId}`;
-                            itemImage.classList.add('item-image');
-                            itemImageCell.appendChild(itemImage);
-                        } else {
-                            itemImageCell.textContent = `Item ${itemId}`;
+                fetch(url)
+                    .then(response => {
+                        console.log("Получен ответ от сервера. Status:", response.status);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
                         }
 
-                        const matchesCell = document.createElement('td');
-                        matchesCell.textContent = matchesWithItem;
-
-                        const winRateWithCell = document.createElement('td');
-                        winRateWithCell.textContent = winRateWithItem ? winRateWithItem.toFixed(2) : '0.00';
-
-                        const winRateWithoutCell = document.createElement('td');
-                        winRateWithoutCell.textContent = winRateWithoutItem ? winRateWithoutItem.toFixed(2) : '0.00';
-
-                        const impactCell = document.createElement('td');
-                        impactCell.textContent = impact ? impact.toFixed(2) : '0.00';
-
-                        row.appendChild(itemIdCell);
-                        row.appendChild(itemImageCell);
-                        row.appendChild(matchesCell);
-                        row.appendChild(winRateWithCell);
-                        row.appendChild(winRateWithoutCell);
-                        row.appendChild(impactCell);
-
-                        tbody.appendChild(row);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Данные успешно получены:", data);
+                        displayMatchupStats(data);
+                    })
+                    .catch(error => {
+                        console.error("Ошибка при запросе статистики:", error);
+                        displayError(`Ошибка загрузки данных: ${error.message}`);
                     });
-                    table.appendChild(tbody);
-
-                    resultsContainer.appendChild(table);
-                }
-
-                const getItemsButton = document.getElementById('get-items-button');
-
-                if (getItemsButton) {
-                    getItemsButton.addEventListener('click', function() {
-                        console.log("Кнопка 'Получить предметы' нажата");
-                        console.log("Выбранный главный герой ID:", selectedHeroMainId);
-                        console.log("Выбранный противник ID:", selectedHeroEnemyId);
-
-                        fetchMatchupStats(selectedHeroMainId, selectedHeroEnemyId);
-                    });
-                } else {
-                    console.error("Кнопка 'get-items-button' не найдена на странице!");
-                }
-
-                function fetchMatchupStats(mainHeroId, enemyHeroId) {
-                    if (!mainHeroId || !enemyHeroId) {
-                        console.error("Ошибка: Не выбраны оба героя для запроса статистики.");
-                        displayError("Пожалуйста, выберите обоих героев.");
-                        return;
-                    }
-
-                    const url = `/api/stats?mainHeroId=${encodeURIComponent(mainHeroId)}&enemyHeroId=${encodeURIComponent(enemyHeroId)}`;
-                    console.log("Отправка запроса на:", url);
-
-                    fetch(url)
-                        .then(response => {
-                            console.log("Получен ответ от сервера. Status:", response.status);
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
-                            }
-
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log("Данные успешно получены:", data);
-                            displayMatchupStats(data);
-                        })
-                        .catch(error => {
-                            console.error("Ошибка при запросе статистики:", error);
-                            displayError(`Ошибка загрузки данных: ${error.message}`);
-                        });
-                }
-            });
-    </script>
+            }
+        });
+</script>
 </body>
 </html>

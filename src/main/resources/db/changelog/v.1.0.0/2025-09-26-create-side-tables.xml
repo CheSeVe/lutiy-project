@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="create-hero-table" author="CheSeVe">
+        <comment>Hero table for storing Dota 2 heroes info</comment>
+        <createTable tableName="hero">
+            <column name="id" type="smallint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="display_name" type="varchar(255)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="img_url" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-item-table" author="CheSeVe">
+        <comment>Item table for storing Dota 2 items info</comment>
+        <createTable tableName="item">
+            <column name="id" type="smallint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="display_name" type="varchar(255)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="img_url" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-match-id-table" author="CheSeVe">
+        <comment>Match id's table for storing id's got from OpenDota API</comment>
+        <createTable tableName="match_id">
+            <column name="match_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

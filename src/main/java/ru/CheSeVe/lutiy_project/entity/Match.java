@@ -3,14 +3,11 @@ package ru.CheSeVe.lutiy_project.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 
-@Table(name = "matches")
 @Entity
 @Getter
 @Setter

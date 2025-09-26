@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="add-idx-for-user" author="CheSeVe">
+        <createIndex tableName="user" indexName="idx_user_username">
+            <column name="username"/>
+        </createIndex>
+
+        <createIndex tableName="user" indexName="idx_user_rank">
+            <column name="rank"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-idx-for-match_player" author="CheSeVe">
+        <createIndex tableName="match_player" indexName="idx_match_player_hero">
+            <column name="hero_id"/>
+        </createIndex>
+
+        <createIndex tableName="match_player" indexName="idx_match_player_match_id">
+            <column name="match_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-idx-for-player_item" author="CheSeVe">
+        <createIndex tableName="player_item" indexName="idx_player_item_item">
+            <column name="item_id"/>
+        </createIndex>
+
+        <createIndex tableName="player_item" indexName="idx_match_player_item_player_id">
+            <column name="match_player_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create-user-table" author="CheSeVe">
+        <comment>User table for storing users info</comment>
+        <createTable tableName="user">
+            <column name="steam_account_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rank" type="varchar(255)"/>
+            <column name="created" type="timestamp with time zone"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-match-table" author="CheSeVe">
+        <comment>Match table for storing matches info</comment>
+        <createTable tableName="match">
+            <column name="match_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="start_date_time" type="timestamp with time zone"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

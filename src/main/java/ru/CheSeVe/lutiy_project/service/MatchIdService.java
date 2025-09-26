@@ -1,24 +1,62 @@
 package ru.CheSeVe.lutiy_project.service;
 
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.CheSeVe.lutiy_project.entity.AppSettings;
-import ru.CheSeVe.lutiy_project.exception.NotFoundException;
-import ru.CheSeVe.lutiy_project.repository.AppSettingsRepository;
+import ru.CheSeVe.lutiy_project.dto.api.opendota.MatchDTO;
+import ru.CheSeVe.lutiy_project.entity.MatchId;
+import ru.CheSeVe.lutiy_project.repository.MatchIdRepository;
+import ru.CheSeVe.lutiy_project.repository.MatchRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MatchIdService {
-    @Autowired
-    AppSettingsRepository repository;
 
-    public Long getNextMatchId() {
-        AppSettings settings = repository.findById("last_match_id")
-                .orElseThrow(() -> new NotFoundException("no id in database"));
-        Long matchId = Long.parseLong(settings.getValue()) + 1;
-        settings.setValue(String.valueOf(matchId));
-        repository.save(settings);
-        return matchId;
+    private static final Logger log = LoggerFactory.getLogger(MatchIdService.class);
+
+    MatchIdRepository matchIdRepository;
+
+    MatchRepository matchRepository;
+
+    OpenDotaApiService apiService;
+
+    public MatchIdService(MatchIdRepository matchIdRepository, MatchRepository matchRepository, OpenDotaApiService apiService) {
+        this.matchIdRepository = matchIdRepository;
+        this.matchRepository = matchRepository;
+        this.apiService = apiService;
+    }
+
+//    @Scheduled(fixedDelay = 60*1000L)
+    public void getAndSaveIds() {
+        if (matchIdRepository.count() + matchRepository.count() >= 200_000L) {
+            return;
+        }
+
+        Optional<List<MatchDTO>> optMatchDTOS = apiService.getMatches();
+
+        if (optMatchDTOS.isEmpty()) {
+            log.warn("OpenDota api returned empty result");
+            return;
+        }
+
+        List<MatchDTO> matchDTOS = optMatchDTOS.get();
+
+        List<Long> matchIds = matchDtoToIdList(matchDTOS);
+
+        List<MatchId> matchIdsEntity = matchIds.stream().map(MatchId::new).collect(Collectors.toList());
+
+        matchIdRepository.saveAll(matchIdsEntity);
+        log.info("Got from OpenDota api and saved {} matchIds", matchIdsEntity.size());
+
+    }
+
+    private List<Long> matchDtoToIdList(List<MatchDTO> listDto) {
+
+        return listDto.stream().map(MatchDTO::match_id).collect(Collectors.toList());
     }
 }

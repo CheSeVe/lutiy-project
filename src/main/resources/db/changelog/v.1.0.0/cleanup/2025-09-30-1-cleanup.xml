@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+    <changeSet id="delete-setting-table" author="CheSeVe">
+        <preConditions>
+            <tableExists tableName="app_settings"/>
+        </preConditions>
+        <comment>delete app setting table if exists</comment>
+        <dropTable tableName="app_settings"/>
+    </changeSet>
+    
+    <changeSet id="rename-match-ids-table" author="CheSeVe">
+        <preConditions>
+            <tableExists tableName="match_ids"/>
+        </preConditions>
+        <renameTable oldTableName="match_ids" newTableName="match_id"/>
+    </changeSet>
+    
+    <changeSet id="rename-matches-table" author="CheSeVe">
+        <preConditions>
+            <tableExists tableName="matches"/>
+        </preConditions>
+        <renameTable oldTableName="matches" newTableName="match"/>
+    </changeSet>
+    
+    <changeSet id="rename-player-items-table" author="CheSeVe">
+        <preConditions>
+            <tableExists tableName="player_items"/>
+        </preConditions>
+        <renameTable oldTableName="player_items" newTableName="player_item"/>
+    </changeSet>
+    
+    <changeSet id="rename-users-table" author="CheSeVe">
+        <preConditions>
+            <tableExists tableName="users"/>
+        </preConditions>
+        <renameTable oldTableName="users" newTableName="user"/>
+    </changeSet>
+
+</databaseChangeLog>

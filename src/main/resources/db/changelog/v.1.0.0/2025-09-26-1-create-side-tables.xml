@@ -37,13 +37,4 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create-app-setting-table" author="CheSeVe">
-        <comment>app settings table for storing settings</comment>
-        <createTable tableName="app_setting">
-            <column name="key" type="varchar(255)">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="value" type="varchar(255)"/>
-        </createTable>
-    </changeSet>
 </databaseChangeLog>

@@ -65,6 +65,7 @@ public class MatchFetchService {
 
             if (matchRepository.existsById(matchId)) {
                 log.info("match with id {} already in database", matchId);
+                matchIdRepository.deleteById(matchId);
                 return;
             }
 

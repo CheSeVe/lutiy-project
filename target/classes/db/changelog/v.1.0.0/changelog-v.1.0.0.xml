@@ -3,10 +3,10 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <include file="2025-09-26-create-side-tables.xml" relativeToChangelogFile="true"/>
-    <include file="2025-09-26-create-core-entities.xml" relativeToChangelogFile="true"/>
-    <include file="2025-09-26-create-relation-tables.xml" relativeToChangelogFile="true"/>
-    <include file="2025-09-26-add-foreign-keys.xml" relativeToChangelogFile="true"/>
-    <include file="2025-09-26-add-indexes.xml" relativeToChangelogFile="true"/>
+    <include file="2025-09-26-1-create-side-tables.xml" relativeToChangelogFile="true"/>
+    <include file="2025-09-26-2-create-core-entities.xml" relativeToChangelogFile="true"/>
+    <include file="2025-09-26-3-create-relation-tables.xml" relativeToChangelogFile="true"/>
+    <include file="2025-09-26-4-add-foreign-keys.xml" relativeToChangelogFile="true"/>
+    <include file="2025-09-26-5-add-indexes.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

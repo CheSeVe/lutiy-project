@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
+@Table(name = "\"user\"")
 public class User implements UserDetails {
     @Id
     Long steamAccountId;

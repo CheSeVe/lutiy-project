@@ -2,9 +2,7 @@ package ru.CheSeVe.lutiy_project.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.exception.NotFoundException;
@@ -12,17 +10,19 @@ import ru.CheSeVe.lutiy_project.repository.HeroRepository;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Slf4j
 public class HeroesInit {
-
-    static final Logger log = LoggerFactory.getLogger(HeroesInit.class);
 
     boolean hasHeroes = false;
 
-    @Autowired
-    HeroRepository repository;
+    final HeroRepository repository;
 
-    @Autowired
-    HeroesInitService service;
+    final HeroesInitService service;
+
+    HeroesInit(HeroRepository repository, HeroesInitService service) {
+        this.repository = repository;
+        this.service = service;
+    }
 
     @Scheduled(fixedDelay = 60*1000L)
     public void initIfNeeded() {

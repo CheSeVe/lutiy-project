@@ -5,9 +5,21 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+    <changeSet id="create-sequences-for-relations" author="CheSeVe">
+        <createSequence
+                sequenceName="match_player_seq"
+                startValue="1"
+                incrementBy="50"/>
+
+        <createSequence
+                sequenceName="player_item_seq"
+                startValue="1"
+                incrementBy="50"/>
+    </changeSet>
+
     <changeSet id="create-match_player-table" author="CheSeVe">
         <createTable tableName="match_player">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="hero_id" type="smallint">
@@ -24,7 +36,7 @@
 
     <changeSet id="create-player_item-table" author="CheSeVe">
         <createTable tableName="player_item">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="item_id" type="smallint">

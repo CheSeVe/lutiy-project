@@ -2,8 +2,8 @@ package ru.CheSeVe.lutiy_project.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.dto.api.opendota.MatchDTO;
 import ru.CheSeVe.lutiy_project.entity.MatchId;
@@ -15,9 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class MatchIdService {
-
-    private static final Logger log = LoggerFactory.getLogger(MatchIdService.class);
 
     MatchIdRepository matchIdRepository;
 
@@ -31,7 +30,7 @@ public class MatchIdService {
         this.apiService = apiService;
     }
 
-//    @Scheduled(fixedDelay = 60*1000L)
+    @Scheduled(fixedDelay = 60*1000L)
     public void getAndSaveIds() {
         if (matchIdRepository.count() + matchRepository.count() >= 200_000L) {
             return;

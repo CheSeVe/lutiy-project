@@ -270,3 +270,42 @@
 2025-09-14 18:59:42 ERROR - matchId=8405597004 reason=HTTP_ERROR body=null message=HTTP connect timed out
 2025-09-14 19:01:57 ERROR - matchId=8405603903 reason=IO_ERROR body=null message=Connection reset
 2025-09-14 20:13:41 ERROR - Stratz api returned empty match for matchId=8405747608, skipping
+2025-11-16 16:33:25 ERROR - matchId=8494380915 reason=IO_ERROR body=null message=Connection reset
+2025-11-16 17:44:40 ERROR - Stratz api returned empty match for matchId=8494548210, skipping
+2025-11-16 18:27:15 ERROR - Stratz api returned empty match for matchId=8494645110, skipping
+2025-11-18 19:29:19 ERROR - reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:20 ERROR - reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:28 ERROR - matchId=8494365809 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:31 ERROR - matchId=8494365809 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:31 ERROR - Stratz api returned empty match for matchId=8494365809, skipping
+2025-11-18 19:29:37 ERROR - matchId=8494366219 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:40 ERROR - matchId=8494366219 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:40 ERROR - Stratz api returned empty match for matchId=8494366219, skipping
+2025-11-18 19:29:46 ERROR - matchId=8494366907 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:49 ERROR - matchId=8494366907 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:49 ERROR - Stratz api returned empty match for matchId=8494366907, skipping
+2025-11-18 19:29:55 ERROR - matchId=8494367019 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:58 ERROR - matchId=8494367019 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:29:58 ERROR - Stratz api returned empty match for matchId=8494367019, skipping
+2025-11-18 19:30:04 ERROR - matchId=8494367409 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:30:07 ERROR - matchId=8494367409 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:30:07 ERROR - Stratz api returned empty match for matchId=8494367409, skipping
+2025-11-18 19:30:09 ERROR - matchId=207573781 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:30:13 ERROR - matchId=8494368600 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:30:16 ERROR - matchId=8494368600 reason=HTTP_ERROR body=error code: 500 message=Unrecognized token 'error': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 6]
+2025-11-18 19:30:16 ERROR - Stratz api returned empty match for matchId=8494368600, skipping

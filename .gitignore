@@ -1,4 +1,14 @@
-/src/main/resources/application.yml
 .gitignore
-pom.xml
-application.yml
+
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+.idea/
+*.iml
+*.log
+
+.env
+secrets/
+src/main/resources/application-dev.yml
+
+.DS_Store

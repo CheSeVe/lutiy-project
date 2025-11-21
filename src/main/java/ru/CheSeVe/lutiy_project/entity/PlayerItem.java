@@ -12,7 +12,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlayerItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_item_seq")
+    @SequenceGenerator(name = "player_item_seq", sequenceName = "player_item_seq")
     Long id;
 
     Short itemId;

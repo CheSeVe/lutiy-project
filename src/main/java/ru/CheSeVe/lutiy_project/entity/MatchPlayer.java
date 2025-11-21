@@ -15,7 +15,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MatchPlayer {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_player_seq")
+    @SequenceGenerator(name = "match_player_seq", sequenceName = "match_player_seq")
     Long id;
 
     Short heroId;

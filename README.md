@@ -1,1 +1,3 @@
-before start add your stratz api key to application-example.yml
+1. Create config from template
+```bash
+copy application-dev.yml.example application-dev.yml

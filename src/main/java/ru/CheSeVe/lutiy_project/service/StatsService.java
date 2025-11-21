@@ -1,7 +1,6 @@
 package ru.CheSeVe.lutiy_project.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.dto.ItemStatsDTO;
 import ru.CheSeVe.lutiy_project.dto.MatchupStatsDTO;
@@ -17,6 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class StatsService {
 
     private final MatchRepository repository;
@@ -26,7 +26,6 @@ public class StatsService {
     private static final int MINIMAL_ITEM_COUNT = 4;
 
 
-    private static final Logger log = LoggerFactory.getLogger(StatsService.class);
 
     public StatsService(MatchRepository repository) {
         this.repository = repository;

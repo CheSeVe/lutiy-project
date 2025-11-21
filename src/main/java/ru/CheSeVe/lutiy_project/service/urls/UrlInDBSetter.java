@@ -1,8 +1,8 @@
 package ru.CheSeVe.lutiy_project.service.urls;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.entity.Hero;
@@ -15,15 +15,18 @@ import java.net.URL;
 import java.util.*;
 
 @Service
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UrlInDBSetter {
 
-    public static final Logger log = LoggerFactory.getLogger(UrlInDBSetter.class);
-
-    @Autowired
     HeroRepository heroRepository;
 
-    @Autowired
     ItemRepository itemRepository;
+
+    public UrlInDBSetter(HeroRepository heroRepository, ItemRepository itemRepository) {
+        this.heroRepository = heroRepository;
+        this.itemRepository = itemRepository;
+    }
 
     @Scheduled(fixedRate = 60*60*1000L)
     public void setHeroUrls() {

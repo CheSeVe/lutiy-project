@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class LutiyProjectApplication {
 
-		public static void main(String[] args) {
+		static void main(String[] args) {
 		SpringApplication.run(LutiyProjectApplication.class, args);
 	}
 

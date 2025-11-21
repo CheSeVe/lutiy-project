@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.dto.api.opendota.MatchDTO;
 import ru.CheSeVe.lutiy_project.repository.MatchIdRepository;
-import ru.CheSeVe.lutiy_project.repository.MatchRepository;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -26,9 +26,8 @@ import java.util.Optional;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class OpenDotaApiService {
-    private static final Logger log = LoggerFactory.getLogger(OpenDotaApiService.class);
-
     private static final Logger failedLog = LoggerFactory.getLogger("FailedMatchesLogger");
 
     private static final Map<Class<? extends Exception>, String> REASONS = Map.of(
@@ -43,7 +42,7 @@ public class OpenDotaApiService {
 
     private static final int MATCHES_PER_REQUEST = 500;
 
-    private static final Long DEFAULT_START_MATCH_ID = 8403200392L;
+    private static final Long DEFAULT_START_MATCH_ID = 8494364702L;
 
     private static final String BASE_URL = "https://api.opendota.com/api/explorer?sql=";
 

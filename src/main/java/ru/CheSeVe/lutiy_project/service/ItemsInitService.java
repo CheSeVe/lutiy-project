@@ -2,9 +2,7 @@ package ru.CheSeVe.lutiy_project.service;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.CheSeVe.lutiy_project.dto.api.ConstantItemsDTO;
 import ru.CheSeVe.lutiy_project.dto.api.DataDTOForItems;
@@ -18,18 +16,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class ItemsInitService {
-    @Autowired
     ItemRepository repository;
 
-    @Autowired
     StratzApiService stratzApiService;
 
-    @Autowired
     ItemMapper mapper;
 
-    private static final Logger log = LoggerFactory.getLogger(ItemsInitService.class);
+    ItemsInitService(ItemRepository repository, StratzApiService service, ItemMapper mapper) {
+        this.repository = repository;
+        this.stratzApiService = service;
+        this.mapper = mapper;
+    }
 
     public void getAndSaveItems() {
         log.info("getting items for DB");

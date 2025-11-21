@@ -1,6 +1,7 @@
 package ru.CheSeVe.lutiy_project.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,14 +12,18 @@ import ru.CheSeVe.lutiy_project.repository.UserRepository;
 import java.util.Optional;
 
 @Controller
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegistrationController {
 public static final String PERFORM_REGISTRATION = "/register";
 
-@Autowired
 UserRepository userRepository;
 
-@Autowired
 PasswordEncoder passwordEncoder;
+
+RegistrationController(UserRepository repository, PasswordEncoder encoder) {
+    userRepository = repository;
+    passwordEncoder = encoder;
+}
 
 
 @PostMapping(PERFORM_REGISTRATION)

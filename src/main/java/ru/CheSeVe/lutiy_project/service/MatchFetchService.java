@@ -1,6 +1,5 @@
 package ru.CheSeVe.lutiy_project.service;
 
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.CheSeVe.lutiy_project.dto.api.DataDTOForMatch;
 import ru.CheSeVe.lutiy_project.dto.api.ErrorDTO;
 import ru.CheSeVe.lutiy_project.dto.api.MatchDTO;
@@ -44,7 +44,7 @@ public class MatchFetchService {
         this.matchIdRepository = matchIdRepository;
         this.mapper = mapper;
     }
-    @Scheduled(fixedRate = 9000L)
+    @Scheduled(fixedRate = 3500L)
     public void getAndSaveMatches(){
 
         try {

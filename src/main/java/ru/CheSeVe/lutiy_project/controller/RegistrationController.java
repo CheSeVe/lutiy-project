@@ -2,44 +2,43 @@ package ru.CheSeVe.lutiy_project.controller;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.CheSeVe.lutiy_project.entity.User;
-import ru.CheSeVe.lutiy_project.repository.UserRepository;
+import ru.CheSeVe.lutiy_project.exception.AlreadyExistException;
+import ru.CheSeVe.lutiy_project.exception.BadRequestException;
+import ru.CheSeVe.lutiy_project.service.RegistrationService;
 
 import java.util.Optional;
 
 @Controller
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RegistrationController {
-public static final String PERFORM_REGISTRATION = "/register";
+    public static final String PERFORM_REGISTRATION = "/register";
 
-UserRepository userRepository;
+    RegistrationService service;
 
-PasswordEncoder passwordEncoder;
-
-RegistrationController(UserRepository repository, PasswordEncoder encoder) {
-    userRepository = repository;
-    passwordEncoder = encoder;
-}
-
-
-@PostMapping(PERFORM_REGISTRATION)
-public String performRegistration(@RequestParam Long steamAccountId,
-                                  @RequestParam String username,
-                                  @RequestParam String password,
-                                  @RequestParam(required = false) Optional<String> rank) {
-    if (userRepository.findByUsername(username).isPresent() || userRepository.findById(steamAccountId).isPresent()) {
-        return "redirect:/registration?error"; // нужна отдельная ошибка на id и username
+    RegistrationController(RegistrationService service) {
+        this.service = service;
     }
 
-    User user = new User(steamAccountId, username, passwordEncoder.encode(password));
-    rank.ifPresent(user::setRank);
-    userRepository.saveAndFlush(user);
-        return  "redirect:/registration?success";
-}
 
-
+    @PostMapping(PERFORM_REGISTRATION)
+    public String performRegistration(@RequestParam Long steamAccountId,
+                                      @RequestParam String username,
+                                      @RequestParam String password,
+                                      @RequestParam(required = false) Optional<String> rank) {
+        try {
+            service.registerAndSaveUser(steamAccountId, username, password, rank);
+            return "redirect:/registration?success";
+        } catch (BadRequestException e) {
+            return "redirect:/registration?error=" + e.getMessage();
+        } catch (AlreadyExistException e) {
+            if (e.getMessage().contains("Username")) {
+                return "redirect:/registration?username_error";
+            } else {
+                return "redirect:/registration?steam_account_id_error";
+            }
+        }
+    }
 }

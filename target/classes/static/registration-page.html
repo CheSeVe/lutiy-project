@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* Earth Spirit fullscreen background */
         .earth-spirit-bg {
             position: absolute;
             top: 0;
@@ -196,7 +195,7 @@
             color: #ff6b6b;
             background: rgba(139, 0, 0, 0.2);
             padding: 10px;
-            margin: 0 0 15px;
+            margin: 0 25px 15px;
             border-radius: 6px;
             border: 1px solid #8B0000;
             text-align: center;
@@ -207,19 +206,19 @@
         }
 
         .success-message {
-        display: none;
-        color: #4CAF50;
-        background: rgba(76, 175, 80, 0.2);
-        padding: 10px;
-        margin: 0 0 15px;
-        border-radius: 6px;
-        border: 1px solid #4CAF50;
-        text-align: center;
-    }
+            display: none;
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 10px;
+            margin: 0 25px 15px;
+            border-radius: 6px;
+            border: 1px solid #4CAF50;
+            text-align: center;
+        }
 
-    .success-message span {
-        margin-right: 8px;
-    }
+        .success-message span {
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -234,7 +233,7 @@
     </div>
 
     <div id="error-message" class="error-message">
-        <span>❌</span> ник или steamAccountId уже занят
+        <span>❌</span> <span id="error-text"></span>
     </div>
 
     <div id="success-message" class="success-message">
@@ -314,6 +313,22 @@
     const urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has('error')) {
+        const errorMessage = urlParams.get('error');
+        document.getElementById('error-text').textContent = errorMessage || 'Неправильные данные';
+        document.getElementById('error-message').style.display = 'block';
+
+        setTimeout(() => {
+            document.getElementById('error-message').style.display = 'none';
+        }, 5000);
+    } else if (urlParams.has('username_error')) {
+        document.getElementById('error-text').textContent = 'Имя пользователя уже занято';
+        document.getElementById('error-message').style.display = 'block';
+
+        setTimeout(() => {
+            document.getElementById('error-message').style.display = 'none';
+        }, 5000);
+    } else if (urlParams.has('steam_account_id_error')) {
+        document.getElementById('error-text').textContent = 'SteamAccountId уже зарегистрирован';
         document.getElementById('error-message').style.display = 'block';
 
         setTimeout(() => {

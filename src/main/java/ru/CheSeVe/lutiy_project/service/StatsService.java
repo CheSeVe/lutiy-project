@@ -2,8 +2,13 @@ package ru.CheSeVe.lutiy_project.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.CheSeVe.lutiy_project.dto.HeroDTO;
 import ru.CheSeVe.lutiy_project.dto.ItemStatsDTO;
 import ru.CheSeVe.lutiy_project.dto.MatchupStatsDTO;
+import ru.CheSeVe.lutiy_project.entity.Hero;
+import ru.CheSeVe.lutiy_project.exception.BadRequestException;
+import ru.CheSeVe.lutiy_project.exception.NotFoundException;
+import ru.CheSeVe.lutiy_project.repository.HeroRepository;
 import ru.CheSeVe.lutiy_project.repository.MatchRepository;
 import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesProjection;
 import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesWithItemInMatchupProjection;
@@ -12,6 +17,7 @@ import ru.CheSeVe.lutiy_project.repository.projection.TotalMatchesWithItemProjec
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -19,25 +25,41 @@ import java.util.stream.Collectors;
 @Slf4j
 public class StatsService {
 
-    private final MatchRepository repository;
+    private final MatchRepository matchRepository;
+
+    private final HeroRepository heroRepository;
 
     private static final double SMOOTHING_COEF = 7.0;
 
     private static final int MINIMAL_ITEM_COUNT = 4;
 
 
-
-    public StatsService(MatchRepository repository) {
-        this.repository = repository;
+    public StatsService(MatchRepository matchRepository, HeroRepository heroRepository) {
+        this.matchRepository = matchRepository;
+        this.heroRepository = heroRepository;
     }
 
-    public MatchupStatsDTO getMatchUpStats(Short heroA, Short heroB) {
+    public MatchupStatsDTO getMatchUpStats(Short mainHeroId, Short enemyHeroId) {
 
-        if (heroA == null || heroB == null) {
+        if (mainHeroId == null || enemyHeroId == null) {
             throw new IllegalArgumentException("Invalid hero parameters");
         }
 
-        List<TotalMatchesWithItemProjection> totalMatchWithItemProj = repository.getMatchesAndWinsWithItem(heroA);
+        if (Objects.equals(mainHeroId, enemyHeroId)) {
+            throw new BadRequestException("Main hero id and enemy hero id can't be the same");
+        }
+
+        List<Short> existingIds = heroRepository.findExistingHeroIds(mainHeroId, enemyHeroId);
+
+        if (!existingIds.contains(mainHeroId)) {
+            throw new NotFoundException(String.format("Hero with id %d does not exist", mainHeroId));
+        }
+
+        if (!existingIds.contains(enemyHeroId)) {
+            throw new NotFoundException(String.format("Hero with id %d does not exist", enemyHeroId));
+        }
+
+        List<TotalMatchesWithItemProjection> totalMatchWithItemProj = matchRepository.getMatchesAndWinsWithItem(mainHeroId);
 
         Map<Short, TotalMatchesWithItemProjection> totalMatchWithItemMap = totalMatchWithItemProj.stream()
                 .collect(Collectors.toMap(
@@ -45,11 +67,11 @@ public class StatsService {
                         Function.identity()
                 ));
 
-        TotalMatchesProjection totalMatchProj = repository.getTotalMatchesAndWins(heroA, heroB);
-        List<TotalMatchesWithItemInMatchupProjection> itemStatsInMatchupProjList = repository.getMatchesAndWinsInMatchupWithItem(heroA, heroB);
+        TotalMatchesProjection totalMatchProj = matchRepository.getTotalMatchesAndWins(mainHeroId, enemyHeroId);
+        List<TotalMatchesWithItemInMatchupProjection> itemStatsInMatchupProjList = matchRepository.getMatchesAndWinsInMatchupWithItem(mainHeroId, enemyHeroId);
 
         List<ItemStatsDTO> itemStats = itemStatsInMatchupProjList.stream()
-                .filter(itemStatsproj -> itemStatsproj.getMatchesWithItem() >= MINIMAL_ITEM_COUNT)
+                .filter(itemStatsProj -> itemStatsProj.getMatchesWithItem() >= MINIMAL_ITEM_COUNT)
                 .map(projectionInMatchup -> {
                     Short itemId = projectionInMatchup.getItemId();
                     String imgUrl = projectionInMatchup.getImgUrl();
@@ -59,7 +81,7 @@ public class StatsService {
                     TotalMatchesWithItemProjection totalMatchesWithItemProj = totalMatchWithItemMap.get(itemId);
 
                     if (totalMatchesWithItemProj == null) {
-                        log.warn("no such itemId={} in matchUp heroA={}, heroB={} for some reason", itemId, heroA, heroB);
+                        log.warn("no such itemId={} in matchUp mainHeroId={}, enemyHeroId={} for some reason", itemId, mainHeroId, enemyHeroId);
                     }
 
                     long heroATotalMatchesWithItem = totalMatchesWithItemProj != null ? totalMatchesWithItemProj.getTotalMatchesWithItem()
@@ -94,6 +116,13 @@ public class StatsService {
                 : 0.0;
 
         return new MatchupStatsDTO(totalMatches, totalWinrate*100, itemStats);
+    }
+
+    public List<HeroDTO> getAndSortHeroes() {
+        return heroRepository.findAll().stream().
+                sorted(Comparator.comparing(Hero::getDisplayName))
+                .map(hero -> new HeroDTO(hero.getId(), hero.getDisplayName(), hero.getImgUrl()))
+                .collect(Collectors.toList());
     }
 
 }

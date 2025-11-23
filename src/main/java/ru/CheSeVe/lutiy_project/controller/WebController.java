@@ -11,17 +11,17 @@ public class WebController {
 
 
     @GetMapping(LOGIN_PAGE)
-    public static String loginPage() {
+    public String loginPage() {
         return "login-page.html";
     }
 
     @GetMapping(INDEX)
-    public static String helloPage() {
+    public String helloPage() {
         return "index.html";
     }
 
     @GetMapping(REGISTRATION)
-    public static String registrationPage() {
+    public String registrationPage() {
         return "registration-page.html";
     }
 

@@ -1,9 +1,9 @@
 package ru.CheSeVe.lutiy_project.service;
 
-import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.CheSeVe.lutiy_project.entity.User;
 import ru.CheSeVe.lutiy_project.exception.NotFoundException;
 import ru.CheSeVe.lutiy_project.repository.UserRepository;
